@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: vacancy_management
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vacancy_management
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
