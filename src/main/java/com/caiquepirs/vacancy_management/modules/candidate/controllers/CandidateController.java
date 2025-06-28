@@ -2,11 +2,16 @@ package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateEntity;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.CandidateUseCase;
+import com.caiquepirs.vacancy_management.modules.candidate.useCases.ProfileCandidateUseCase;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/candidate")
@@ -14,8 +19,10 @@ import org.springframework.web.bind.annotation.*;
 public class CandidateController {
 
     private final CandidateUseCase useCase;
+    private final ProfileCandidateUseCase profileCandidateUseCase;
 
     @PostMapping
+    @PreAuthorize("hasRole('CANDIDATE')")
     public ResponseEntity<Object> create(@RequestBody @Valid CandidateEntity candidate){
         try {
             var result =   useCase.execute(candidate);
