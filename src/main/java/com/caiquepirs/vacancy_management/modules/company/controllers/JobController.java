@@ -2,7 +2,7 @@ package com.caiquepirs.vacancy_management.modules.company.controllers;
 
 import com.caiquepirs.vacancy_management.modules.company.dto.CreateJobDTO;
 import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
-import com.caiquepirs.vacancy_management.modules.company.useCases.CreateJobUseCase;
+import com.caiquepirs.vacancy_management.modules.company.useCases.JobUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class JobController {
 
-    private final CreateJobUseCase jobUseCase;
+    private final JobUseCase jobUseCase;
 
     @PostMapping
     public JobEntity create(@RequestBody @Valid CreateJobDTO jobDTO, HttpServletRequest request){
