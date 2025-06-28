@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyDTO;
+import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.naming.AuthenticationException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 
 @Service
 public class AuthCompanyUseCase {
@@ -29,7 +31,7 @@ public class AuthCompanyUseCase {
         this.secretToken = secretToken;
     }
 
-    public AuthCandidateResponseDTO execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
+        public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
         var company = companyRepository.findByUsername(authCompanyDTO.username())
                 .orElseThrow(() -> new UserFoundException("Username/password incorrect"));
 
@@ -40,13 +42,18 @@ public class AuthCompanyUseCase {
         }
 
         Algorithm algorithm = Algorithm.HMAC256(secretToken);
+
+        var expireIn = Instant.now().plus(Duration.ofHours(2));
+
         var token = JWT.create().withIssuer("jobAPI")
-                .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
+                .withExpiresAt(expireIn)
                 .withSubject(company.getId().toString())
+                .withClaim("roles", Arrays.asList("COMPANY"))
                 .sign(algorithm);
 
-        return AuthCandidateResponseDTO.builder()
+        return AuthCompanyResponseDTO.builder()
                 .access_token(token)
+                .expire_at(expireIn.toEpochMilli())
                 .build();
     }
 
