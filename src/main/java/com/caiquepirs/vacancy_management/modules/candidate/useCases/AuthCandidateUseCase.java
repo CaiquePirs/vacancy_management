@@ -1,0 +1,58 @@
+package com.caiquepirs.vacancy_management.modules.candidate.useCases;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
+import com.caiquepirs.vacancy_management.modules.candidate.CandidateRepository;
+import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateResponseDTO;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.naming.AuthenticationException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+
+@Service
+public class AuthCandidateUseCase {
+
+    private final CandidateRepository repository;
+    private final PasswordEncoder encoder;
+    private final String secretToken;
+
+    public AuthCandidateUseCase(CandidateRepository repository, PasswordEncoder encoder,
+                                @Value("${SECRET_TOKEN}") String secretToken) {
+        this.repository = repository;
+        this.encoder = encoder;
+        this.secretToken = secretToken;
+    }
+
+    public AuthCandidateResponseDTO execute(AuthCandidateRequestDTO candidateRequestDTO) throws AuthenticationException {
+        var candidate = repository.findByUsername(candidateRequestDTO.username())
+                .orElseThrow(() -> new UserFoundException("Username/password incorrect"));
+
+        var matches = encoder.matches(candidateRequestDTO.password(), candidate.getPassword());
+
+        if(!matches){
+            throw new AuthenticationException();
+        }
+
+        Algorithm algorithm = Algorithm.HMAC256(secretToken);
+        var expiresIn = Instant.now().plus(Duration.ofMinutes(10));
+
+        var token = JWT.create()
+                .withIssuer("jobAPI")
+                .withSubject(candidate.getId().toString())
+                .withClaim("roles", Arrays.asList("candidate"))
+                .withExpiresAt(expiresIn)
+                .sign(algorithm);
+
+        return AuthCandidateResponseDTO.builder()
+                .access_token(token)
+                .expire_in(expiresIn.toEpochMilli())
+                .build();
+
+    }
+}
