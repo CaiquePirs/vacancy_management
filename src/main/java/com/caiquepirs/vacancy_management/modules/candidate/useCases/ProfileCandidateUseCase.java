@@ -1,5 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.candidate.useCases;
 
+import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateRepository;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateResponseDTO;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,12 @@ public class ProfileCandidateUseCase {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         return candidateMapper.toResponseDTO(candidate);
+    }
+
+    public void deleteProfile(UUID id){
+        var existProfile = repository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        repository.delete(existProfile);
     }
 
 }
