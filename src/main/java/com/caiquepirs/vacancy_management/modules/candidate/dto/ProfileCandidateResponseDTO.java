@@ -13,10 +13,10 @@ import java.util.UUID;
 @Builder
 public class ProfileCandidateResponseDTO {
 
-    private String description;
+    private UUID id;
+    private String name;
     private String username;
     private String email;
-    private String name;
-    private UUID id;
+    private String description;
 
 }

@@ -1,14 +1,14 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateEntity;
-import com.caiquepirs.vacancy_management.modules.candidate.useCases.CandidateUseCase;
+import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
+import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.candidate.useCases.CreateCandidateUseCase;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.ProfileCandidateUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -18,15 +18,17 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CandidateController {
 
-    private final CandidateUseCase useCase;
+    private final CreateCandidateUseCase useCase;
     private final ProfileCandidateUseCase profileCandidateUseCase;
+    private final CandidateMapper candidateMapper;
 
     @PostMapping
-    @PreAuthorize("hasRole('CANDIDATE')")
-    public ResponseEntity<Object> create(@RequestBody @Valid CandidateEntity candidate){
+    public ResponseEntity<Object> create(@RequestBody @Valid ProfileCandidateRequestDTO candidateDTO){
         try {
-            var result =   useCase.execute(candidate);
-            return ResponseEntity.status(HttpStatus.CREATED).body(result);
+            var candidateEntity = useCase.execute(candidateDTO);
+            var candidateResponseDTO = candidateMapper.toResponseDTO(candidateEntity);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(candidateResponseDTO);
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
