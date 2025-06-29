@@ -2,9 +2,11 @@ package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.CreateCandidateUseCase;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.ProfileCandidateUseCase;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -61,5 +63,21 @@ public class CandidateController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 
         }
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('CANDIDATE')")
+    public ResponseEntity<Object> updateProfile(HttpServletRequest request,
+                                                @RequestBody ProfileUpdateCandidateRequestDTO profileDTO){
+        var idCandidate = request.getAttribute("candidate_id").toString();
+
+        try {
+            var profileUpdated = profileCandidateUseCase.updateProfile(UUID.fromString(idCandidate), profileDTO);
+            return ResponseEntity.ok(profileUpdated);
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 }
