@@ -35,13 +35,12 @@ public class CandidateController {
 
     }
 
-
     @GetMapping
-    public ResponseEntity<Object> get(UUID id, HttpServletRequest request) {
+    public ResponseEntity<Object> getProfile(UUID id, HttpServletRequest request) {
         var idCandidate = request.getAttribute("candidate_id");
 
         try {
-            var profile = profileCandidateUseCase.execute(UUID.fromString(idCandidate.toString()));
+            var profile = profileCandidateUseCase.getProfile(UUID.fromString(idCandidate.toString()));
             return ResponseEntity.ok().body(profile);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

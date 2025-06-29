@@ -13,18 +13,13 @@ import java.util.UUID;
 public class ProfileCandidateUseCase {
 
     private final CandidateRepository repository;
+    private final CandidateMapper candidateMapper;
 
-    public ProfileCandidateResponseDTO execute(UUID idCandidate){
+    public ProfileCandidateResponseDTO getProfile(UUID idCandidate){
         var candidate = repository.findById(idCandidate)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-       return ProfileCandidateResponseDTO.builder()
-                .id(candidate.getId())
-                .email(candidate.getEmail())
-                .name(candidate.getName())
-                .description(candidate.getDescription())
-                .username(candidate.getUsername())
-                .build();
+        return candidateMapper.toResponseDTO(candidate);
     }
 
 }
