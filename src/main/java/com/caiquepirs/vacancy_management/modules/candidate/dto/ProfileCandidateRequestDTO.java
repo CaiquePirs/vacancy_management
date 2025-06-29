@@ -30,6 +30,9 @@ public class ProfileCandidateRequestDTO {
     @Length(min = 10, max = 50, message = "Password must contain between 10 and 50 characters")
     private String password;
 
+    @NotBlank(message = "Curriculum is required")
     private String curriculum;
+
+    @NotBlank(message = "Description is required")
     private String description;
 }

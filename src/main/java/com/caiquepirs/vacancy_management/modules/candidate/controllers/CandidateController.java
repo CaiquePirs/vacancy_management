@@ -68,7 +68,7 @@ public class CandidateController {
     @PutMapping
     @PreAuthorize("hasRole('CANDIDATE')")
     public ResponseEntity<Object> updateProfile(HttpServletRequest request,
-                                                @RequestBody ProfileUpdateCandidateRequestDTO profileDTO){
+                                                @RequestBody @Valid ProfileUpdateCandidateRequestDTO profileDTO){
         var idCandidate = request.getAttribute("candidate_id").toString();
 
         try {
