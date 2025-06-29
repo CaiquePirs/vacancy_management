@@ -2,11 +2,23 @@ spring:
   application:
     name: vacancy_management
 
+  output:
+    ansi:
+      enabled: ALWAYS
+
   datasource:
     url: jdbc:postgresql://localhost:5432/vacancy_management
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 
   jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
     hibernate:
       ddl-auto: update
+
+logging:
+  pattern:
+    console: '%clr(%d{dd-MM-yyyy HH:mm:ss}){faint} %clr(%5p) %clr([%t]){faint} %clr(%-40.40logger){cyan} %clr(:){yellow} %m%n'
