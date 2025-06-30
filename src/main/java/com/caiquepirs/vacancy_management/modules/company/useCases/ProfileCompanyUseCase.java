@@ -1,6 +1,9 @@
 package com.caiquepirs.vacancy_management.modules.company.useCases;
 
+import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
 import com.caiquepirs.vacancy_management.exceptions.UserNotFoundException;
+import com.caiquepirs.vacancy_management.modules.company.ValidateUpdateCompanyField;
+import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.entities.CompanyEntity;
 import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
 import com.caiquepirs.vacancy_management.modules.company.repositories.CompanyRepository;
@@ -19,6 +22,7 @@ public class ProfileCompanyUseCase {
 
     private final CompanyRepository companyRepository;
     private final JobRepository jobRepository;
+    private final ValidateUpdateCompanyField validate;
 
     public CompanyEntity getProfile(UUID id){
         return companyRepository.findById(id)
@@ -39,5 +43,20 @@ public class ProfileCompanyUseCase {
         }
 
         companyRepository.delete(company);
+    }
+
+    public CompanyEntity updateProfile(UUID companyId, CompanyUpdateRequestDTO companyDTO){
+        var company = getProfile(companyId);
+        var companyUpdated = validate.validate(company, companyDTO);
+
+        companyRepository.findByUsernameOrEmail(companyUpdated.getUsername(), companyUpdated.getEmail())
+                .ifPresent(companyFound -> {
+                    if (!companyFound.getId().equals(companyUpdated.getId())) {
+                        throw new UserFoundException("This username or email is already in use");
+                    }
+                });
+
+        return companyRepository.save(companyUpdated);
+
     }
 }

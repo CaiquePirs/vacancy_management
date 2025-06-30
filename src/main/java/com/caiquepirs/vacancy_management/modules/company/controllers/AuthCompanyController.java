@@ -1,7 +1,7 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyRequestDTO;
-import com.caiquepirs.vacancy_management.modules.company.dto.CompanyRequestDTO;
+import com.caiquepirs.vacancy_management.modules.company.dto.CompanyCreateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.mappers.CompanyMapper;
 import com.caiquepirs.vacancy_management.modules.company.useCases.AuthCompanyUseCase;
 import com.caiquepirs.vacancy_management.modules.company.useCases.CreateCompanyUseCase;
