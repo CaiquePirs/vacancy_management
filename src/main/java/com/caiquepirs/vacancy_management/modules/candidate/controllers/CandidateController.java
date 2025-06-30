@@ -1,9 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
-import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
-import com.caiquepirs.vacancy_management.modules.candidate.useCases.CreateCandidateUseCase;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.CreateJobApplicationUseCase;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.ProfileCandidateUseCase;
 import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
@@ -23,23 +20,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CandidateController {
 
-    private final CreateCandidateUseCase useCase;
     private final ProfileCandidateUseCase profileCandidateUseCase;
-    private final CandidateMapper candidateMapper;
     private final CreateJobApplicationUseCase jobApplicationUseCase;
-
-    @PostMapping
-    public ResponseEntity<Object> create(@RequestBody @Valid ProfileCandidateRequestDTO candidateDTO){
-        try {
-            var candidateEntity = useCase.execute(candidateDTO);
-            var candidateResponseDTO = candidateMapper.toResponseDTO(candidateEntity);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(candidateResponseDTO);
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
-    }
 
     @GetMapping
     @PreAuthorize("hasRole('CANDIDATE')")
