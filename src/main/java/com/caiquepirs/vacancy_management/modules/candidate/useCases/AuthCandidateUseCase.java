@@ -3,6 +3,7 @@ package com.caiquepirs.vacancy_management.modules.candidate.useCases;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
+import com.caiquepirs.vacancy_management.exceptions.UserNotFoundException;
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateRepository;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateResponseDTO;
@@ -31,7 +32,7 @@ public class AuthCandidateUseCase {
 
     public AuthCandidateResponseDTO execute(AuthCandidateRequestDTO candidateRequestDTO) throws AuthenticationException {
         var candidate = repository.findByUsername(candidateRequestDTO.username())
-                .orElseThrow(() -> new UserFoundException("Username/password incorrect"));
+                .orElseThrow(() -> new UserNotFoundException("Username/password incorrect"));
 
         var matches = encoder.matches(candidateRequestDTO.password(), candidate.getPassword());
 

@@ -1,6 +1,7 @@
 package com.caiquepirs.vacancy_management.modules.candidate.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
+import com.caiquepirs.vacancy_management.exceptions.UserNotFoundException;
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateEntity;
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateRepository;
@@ -25,13 +26,13 @@ public class ProfileCandidateUseCase {
 
     public ProfileCandidateResponseDTO getProfile(UUID idCandidate){
         var candidate = repository.findById(idCandidate)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         return candidateMapper.toResponseDTO(candidate);
     }
 
     public void deleteProfile(UUID id){
         var existProfile = repository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         repository.delete(existProfile);
     }
 
@@ -50,7 +51,7 @@ public class ProfileCandidateUseCase {
             var candidateUpdated = validateCandidate.validate(candidate, profileDTO);
             return repository.save(candidateUpdated);
 
-        }).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        }).orElseThrow(() -> new UserNotFoundException("User not found"));
         return candidateMapper.toResponseDTO(existProfile);
     }
 
