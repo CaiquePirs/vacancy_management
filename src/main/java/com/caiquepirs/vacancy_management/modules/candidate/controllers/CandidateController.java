@@ -83,9 +83,9 @@ public class CandidateController {
         }
     }
 
-    @PostMapping("/job/applications")
+    @PostMapping("/job/{jobId}/applications")
     @PreAuthorize("hasRole('CANDIDATE')")
-    public ResponseEntity<Object> applyToJob(UUID jobId, HttpServletRequest request){
+    public ResponseEntity<Object> applyToJob(@PathVariable UUID jobId, HttpServletRequest request){
 
         try {
             var idCandidate = request.getAttribute("candidate_id").toString();
