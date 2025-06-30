@@ -3,7 +3,6 @@ package com.caiquepirs.vacancy_management.modules.company.entities;
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateEntity;
 import com.caiquepirs.vacancy_management.modules.company.enuns.JobStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +14,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Entity(name = "job")
+@Entity
+@Table(name = "jobs")
 @Data
 @Builder
 @AllArgsConstructor
@@ -26,19 +26,19 @@ public class JobEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank(message = "This field is required")
     private String description;
-    private String level;
-    private String benefits;
 
-    @NotBlank(message = "This field is required")
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private CompanyEntity companyId;
+    private String level;
+
+    private String benefits;
 
     private UUID idCompany;
 
     private JobStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private CompanyEntity company;
 
     @ManyToMany(mappedBy = "myJobApplications")
     private List<CandidateEntity> candidates;

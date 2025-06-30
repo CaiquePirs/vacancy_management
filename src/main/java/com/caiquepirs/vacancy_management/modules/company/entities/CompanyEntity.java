@@ -6,9 +6,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
-@Entity(name = "company")
+@Entity
+@Table(name = "companys")
 @Data
 public class CompanyEntity {
 
@@ -33,6 +35,9 @@ public class CompanyEntity {
 
     @Column(nullable = false)
     private String description;
+
+    @OneToMany(mappedBy = "company")
+    private List<JobEntity> vacanciesCreated;
 
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
