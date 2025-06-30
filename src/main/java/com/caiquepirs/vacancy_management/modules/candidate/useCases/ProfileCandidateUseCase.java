@@ -1,15 +1,18 @@
 package com.caiquepirs.vacancy_management.modules.candidate.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
+import com.caiquepirs.vacancy_management.modules.candidate.CandidateEntity;
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateRepository;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.util.ValidateCandidateField;
+import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -48,9 +51,11 @@ public class ProfileCandidateUseCase {
             return repository.save(candidateUpdated);
 
         }).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
         return candidateMapper.toResponseDTO(existProfile);
+    }
 
+    public List<JobEntity> myJobApplications(UUID id){
+        return repository.findById(id).get().getMyJobApplications();
     }
 
 }

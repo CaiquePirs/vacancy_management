@@ -1,11 +1,13 @@
 package com.caiquepirs.vacancy_management.modules.candidate;
 
+import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,6 +33,12 @@ public class CandidateEntity {
 
     private String description;
     private String curriculum;
+
+    @ManyToMany
+    @JoinTable(name = "candidate_job_applications",
+              joinColumns = @JoinColumn(name = "candidate_id"),
+              inverseJoinColumns = @JoinColumn(name = "job_id"))
+    private List<JobEntity> myJobApplications;
 
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
