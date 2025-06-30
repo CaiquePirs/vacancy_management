@@ -35,9 +35,9 @@ public class AuthCompanyController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody @Valid CompanyRequestDTO companyRequestDTO){
+    public ResponseEntity<Object> register(@RequestBody @Valid CompanyCreateRequestDTO companyCreateRequestDTO){
         try {
-            var companyCreated = createCompanyUseCase.execute(companyRequestDTO);
+            var companyCreated = createCompanyUseCase.execute(companyCreateRequestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(companyMapper.toDTO(companyCreated));
 
         } catch (Exception e){

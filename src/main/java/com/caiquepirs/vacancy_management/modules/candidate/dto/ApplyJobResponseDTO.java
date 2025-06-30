@@ -24,8 +24,7 @@ public class ApplyJobResponseDTO {
     private JobStatus jobStatus;
 
     public ApplyJobResponseDTO execute(JobEntity job, CandidateEntity candidate){
-        return ApplyJobResponseDTO.builder()
-                .candidateName(job.getCompanyId().getName())
+        return ApplyJobResponseDTO.builder().candidateName(job.getCompany().getName())
                 .jobDescription(job.getDescription())
                 .jobLevel(job.getLevel())
                 .candidateName(candidate.getName())

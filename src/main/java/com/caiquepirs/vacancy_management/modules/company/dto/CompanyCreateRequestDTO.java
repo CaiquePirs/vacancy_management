@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
-public record CompanyRequestDTO(@NotBlank(message = "Name is required.")
+public record CompanyCreateRequestDTO(
+                               @NotBlank(message = "Name is required.")
                                 String name,
 
                                 @NotBlank(message = "Username is required")

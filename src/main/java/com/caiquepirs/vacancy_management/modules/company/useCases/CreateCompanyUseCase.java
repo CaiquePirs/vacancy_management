@@ -1,7 +1,7 @@
 package com.caiquepirs.vacancy_management.modules.company.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
-import com.caiquepirs.vacancy_management.modules.company.dto.CompanyRequestDTO;
+import com.caiquepirs.vacancy_management.modules.company.dto.CompanyCreateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.entities.CompanyEntity;
 import com.caiquepirs.vacancy_management.modules.company.mappers.CompanyMapper;
 import com.caiquepirs.vacancy_management.modules.company.repositories.CompanyRepository;
@@ -17,14 +17,14 @@ public class CreateCompanyUseCase {
     private final PasswordEncoder encoder;
     private final CompanyMapper companyMapper;
 
-    public CompanyEntity execute(CompanyRequestDTO companyRequestDTO){
-        repository.findByUsernameOrEmail(companyRequestDTO.username(), companyRequestDTO.email())
+    public CompanyEntity execute(CompanyCreateRequestDTO companyCreateRequestDTO){
+        repository.findByUsernameOrEmail(companyCreateRequestDTO.username(), companyCreateRequestDTO.email())
                 .ifPresent(company -> {
                     throw new UserFoundException("This company already exist");
                 });
 
-        var companyEntity = companyMapper.toEntity(companyRequestDTO);
-        companyEntity.setPassword(encoder.encode(companyRequestDTO.password()));
+        var companyEntity = companyMapper.toEntity(companyCreateRequestDTO);
+        companyEntity.setPassword(encoder.encode(companyCreateRequestDTO.password()));
         return repository.save(companyEntity);
     }
 
