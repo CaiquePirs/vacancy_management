@@ -3,8 +3,7 @@ package com.caiquepirs.vacancy_management.modules.company.useCases;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
-import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateResponseDTO;
-import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyDTO;
+import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,11 +30,11 @@ public class AuthCompanyUseCase {
         this.secretToken = secretToken;
     }
 
-        public AuthCompanyResponseDTO execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
-        var company = companyRepository.findByUsername(authCompanyDTO.username())
+        public AuthCompanyResponseDTO execute(AuthCompanyRequestDTO authCompanyRequestDTO) throws AuthenticationException {
+        var company = companyRepository.findByUsername(authCompanyRequestDTO.username())
                 .orElseThrow(() -> new UserFoundException("Username/password incorrect"));
 
-        boolean matches = passwordEncoder.matches(authCompanyDTO.password(), company.getPassword());
+        boolean matches = passwordEncoder.matches(authCompanyRequestDTO.password(), company.getPassword());
 
         if(!matches){
             throw new AuthenticationException();

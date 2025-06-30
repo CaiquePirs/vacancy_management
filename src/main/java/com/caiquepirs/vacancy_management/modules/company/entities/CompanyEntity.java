@@ -1,15 +1,9 @@
 package com.caiquepirs.vacancy_management.modules.company.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -22,17 +16,22 @@ public class CompanyEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Pattern(regexp = "^\\S+$", message = "The field (username) cannot contain space.")
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Email(message = "The field (email) must contain a valid email address.")
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Length(min = 10, max = 50, message = "Password must contain between 10 and 50 characters")
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String website;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String description;
 
     @CreationTimestamp
