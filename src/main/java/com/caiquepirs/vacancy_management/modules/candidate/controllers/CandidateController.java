@@ -1,7 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
-import com.caiquepirs.vacancy_management.modules.candidate.dto.ApplyJobResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.CreateCandidateUseCase;
@@ -85,6 +84,7 @@ public class CandidateController {
     }
 
     @PostMapping("/job/applications")
+    @PreAuthorize("hasRole('CANDIDATE')")
     public ResponseEntity<Object> applyToJob(UUID jobId, HttpServletRequest request){
 
         try {
