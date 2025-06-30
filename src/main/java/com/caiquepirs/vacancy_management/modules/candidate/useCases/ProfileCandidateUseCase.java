@@ -36,9 +36,12 @@ public class ProfileCandidateUseCase {
         var existProfile = repository.findById(id).map(candidate -> {
 
             if (profileDTO.username() != null || profileDTO.email() != null) {
-
                 repository.findByUsernameOrEmail(profileDTO.username(), profileDTO.email())
-                        .orElseThrow(() -> new UserFoundException("This user already exist"));
+                        .ifPresent(userFound -> {
+                            if (!userFound.getId().equals(candidate.getId())) {
+                                throw new UserFoundException("This username or email is already in use");
+                            }
+                        });
             }
 
             var candidateUpdated = validateCandidate.validate(candidate, profileDTO);
