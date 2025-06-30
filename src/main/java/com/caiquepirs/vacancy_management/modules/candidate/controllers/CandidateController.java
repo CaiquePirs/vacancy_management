@@ -1,9 +1,11 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
+import com.caiquepirs.vacancy_management.modules.candidate.dto.ApplyJobResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.CreateCandidateUseCase;
+import com.caiquepirs.vacancy_management.modules.candidate.useCases.CreateJobApplicationUseCase;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.ProfileCandidateUseCase;
 import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +27,7 @@ public class CandidateController {
     private final CreateCandidateUseCase useCase;
     private final ProfileCandidateUseCase profileCandidateUseCase;
     private final CandidateMapper candidateMapper;
+    private final CreateJobApplicationUseCase jobApplicationUseCase;
 
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody @Valid ProfileCandidateRequestDTO candidateDTO){
@@ -80,6 +83,20 @@ public class CandidateController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping("/job/applications")
+    public ResponseEntity<Object> applyToJob(UUID jobId, HttpServletRequest request){
+
+        try {
+            var idCandidate = request.getAttribute("candidate_id").toString();
+            var resultApplication = jobApplicationUseCase.execute(UUID.fromString(idCandidate), jobId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(resultApplication);
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
     @GetMapping("/job/applications")
     @PreAuthorize("hasRole('CANDIDATE')")

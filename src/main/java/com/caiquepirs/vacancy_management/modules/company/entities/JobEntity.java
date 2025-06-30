@@ -1,6 +1,7 @@
 package com.caiquepirs.vacancy_management.modules.company.entities;
 
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateEntity;
+import com.caiquepirs.vacancy_management.modules.company.enuns.JobStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,8 @@ public class JobEntity {
     private CompanyEntity companyId;
 
     private UUID idCompany;
+
+    private JobStatus status;
 
     @ManyToMany(mappedBy = "myJobApplications")
     private List<CandidateEntity> candidates;
