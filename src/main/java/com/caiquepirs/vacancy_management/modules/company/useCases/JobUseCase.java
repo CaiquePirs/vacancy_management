@@ -52,4 +52,22 @@ public class JobUseCase {
         jobRepository.delete(job);
     }
 
+    public void toggleJobStatus(UUID companyId, UUID jobId) {
+        var company = companyUseCase.getProfile(companyId);
+
+        JobEntity job = company.getVacanciesCreated()
+                .stream()
+                .filter(j -> j.getId().equals(jobId))
+                .findFirst()
+                .orElseThrow(() -> new JobNotFoundException("Job not found"));
+
+        if (job.getStatus().equals(JobStatus.ACTIVE)) {
+            job.setStatus(JobStatus.INACTIVE);
+        } else {
+            job.setStatus(JobStatus.ACTIVE);
+        }
+
+        jobRepository.save(job);
+    }
+
 }

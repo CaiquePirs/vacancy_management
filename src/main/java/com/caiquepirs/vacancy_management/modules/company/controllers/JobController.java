@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/company/job")
+@RequestMapping("/company/jobs")
 @AllArgsConstructor
 public class JobController {
 
@@ -61,6 +61,20 @@ public class JobController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @PatchMapping("{id}")
+    @PreAuthorize("hasRole('COMPANY')")
+    public ResponseEntity<Object> toggleJobStatus(@PathVariable(name = "id") UUID jobId, HttpServletRequest request){
+        var companyId = request.getAttribute("company_id").toString();
+
+        try {
+            jobUseCase.toggleJobStatus(UUID.fromString(companyId), jobId);
+            return ResponseEntity.noContent().build();
+
+       } catch (Exception e){
+           return ResponseEntity.badRequest().body(e.getMessage());
+       }
     }
 
 }
