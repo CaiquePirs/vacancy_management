@@ -2,11 +2,14 @@ package com.caiquepirs.vacancy_management.modules.company.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.JobNotFoundException;
 import com.caiquepirs.vacancy_management.modules.company.dto.JobRequestDTO;
+import com.caiquepirs.vacancy_management.modules.company.dto.JobResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
 import com.caiquepirs.vacancy_management.modules.company.enuns.JobStatus;
 import com.caiquepirs.vacancy_management.modules.company.mappers.JobMapper;
 import com.caiquepirs.vacancy_management.modules.company.repositories.JobRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,11 @@ public class JobUseCase {
         job.setStatus(JobStatus.ACTIVE);
 
         return jobRepository.save(job);
+    }
+
+    public Page<JobResponseDTO> listJobs(UUID companyId, int page, int size){
+        return jobRepository.findByCompanyId(companyId, PageRequest.of(page, size))
+                .map(jobMapper::toDTO);
     }
 
     @Transactional

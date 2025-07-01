@@ -1,11 +1,13 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
 import com.caiquepirs.vacancy_management.modules.company.dto.JobRequestDTO;
+import com.caiquepirs.vacancy_management.modules.company.dto.JobResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.mappers.JobMapper;
 import com.caiquepirs.vacancy_management.modules.company.useCases.JobUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,6 +36,18 @@ public class JobController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping
+    @PreAuthorize("hasRole('COMPANY')")
+    public ResponseEntity<Page<JobResponseDTO>> jobList(HttpServletRequest request,
+                                                        @RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "10") int size){
+
+        var companyId  = request.getAttribute("company_id").toString();
+        var jobsList = jobUseCase.listJobs(UUID.fromString(companyId), page, size);
+        return ResponseEntity.ok().body(jobsList);
+    }
+
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('COMPANY')")
