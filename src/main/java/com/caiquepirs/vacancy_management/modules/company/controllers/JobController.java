@@ -2,6 +2,7 @@ package com.caiquepirs.vacancy_management.modules.company.controllers;
 
 import com.caiquepirs.vacancy_management.modules.company.dto.JobRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.JobResponseDTO;
+import com.caiquepirs.vacancy_management.modules.company.dto.JobUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.mappers.JobMapper;
 import com.caiquepirs.vacancy_management.modules.company.useCases.JobUseCase;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,6 +62,17 @@ public class JobController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @PutMapping("{id}")
+    @PreAuthorize("hasRole('COMPANY')")
+    public ResponseEntity<JobResponseDTO> update(@RequestBody @Valid JobUpdateRequestDTO jobDTO,
+                                                 @PathVariable(name = "id" ) UUID jobId,
+                                                 HttpServletRequest request){
+
+        var companyId = request.getAttribute("company_id").toString();
+        var jobUpdated = jobUseCase.update(UUID.fromString(companyId), jobId , jobDTO);
+        return ResponseEntity.ok(jobMapper.toDTO(jobUpdated));
     }
 
     @PatchMapping("{id}")

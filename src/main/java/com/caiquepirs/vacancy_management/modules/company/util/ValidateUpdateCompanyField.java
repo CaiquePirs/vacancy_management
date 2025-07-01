@@ -1,4 +1,4 @@
-package com.caiquepirs.vacancy_management.modules.company;
+package com.caiquepirs.vacancy_management.modules.company.util;
 
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.entities.CompanyEntity;
