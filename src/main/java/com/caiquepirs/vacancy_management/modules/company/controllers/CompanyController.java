@@ -50,8 +50,9 @@ public class CompanyController {
 
 
     @PutMapping
+    @PreAuthorize("hasRole('COMPANY')")
     public ResponseEntity<Object> updateProfile(@RequestBody @Valid CompanyUpdateRequestDTO companyDTO,
-                                                HttpServletRequest request){
+                                                HttpServletRequest request) {
         var companyId = request.getAttribute("company_id").toString();
 
         try {

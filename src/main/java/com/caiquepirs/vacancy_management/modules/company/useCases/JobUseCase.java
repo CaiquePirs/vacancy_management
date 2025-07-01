@@ -1,18 +1,32 @@
 package com.caiquepirs.vacancy_management.modules.company.useCases;
 
+import com.caiquepirs.vacancy_management.modules.company.dto.JobRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.company.enuns.JobStatus;
+import com.caiquepirs.vacancy_management.modules.company.mappers.JobMapper;
 import com.caiquepirs.vacancy_management.modules.company.repositories.JobRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 
 @Service
 @AllArgsConstructor
 public class JobUseCase {
 
-    private final JobRepository repository;
+    private final JobRepository jobRepository;
+    private final ProfileCompanyUseCase companyUseCase;
+    private final JobMapper jobMapper;
 
-    public JobEntity execute(JobEntity jobEntity){
-        return repository.save(jobEntity);
+    public JobEntity create(UUID companyID, JobRequestDTO jobDTO){
+        var companyId = companyUseCase.getProfile(companyID);
+
+        var job = jobMapper.toEntity(jobDTO);
+        job.setCompany(companyId);
+        job.setStatus(JobStatus.ACTIVE);
+
+        return jobRepository.save(job);
     }
+
 }

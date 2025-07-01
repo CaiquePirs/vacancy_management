@@ -1,11 +1,13 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
-import com.caiquepirs.vacancy_management.modules.company.dto.CreateJobDTO;
-import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.company.dto.JobRequestDTO;
+import com.caiquepirs.vacancy_management.modules.company.mappers.JobMapper;
 import com.caiquepirs.vacancy_management.modules.company.useCases.JobUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,20 +22,19 @@ import java.util.UUID;
 public class JobController {
 
     private final JobUseCase jobUseCase;
+    private final JobMapper jobMapper;
 
     @PostMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public JobEntity create(@RequestBody @Valid CreateJobDTO jobDTO, HttpServletRequest request){
-        var companyId = request.getAttribute("company_id");
+    public ResponseEntity<Object> create(@RequestBody @Valid JobRequestDTO jobDTO, HttpServletRequest request){
+        var companyId = request.getAttribute("company_id").toString();
 
-       var jobEntity = JobEntity.builder()
-                .idCompany(UUID.fromString(companyId.toString()))
-                .benefits(jobDTO.benefits())
-                .description(jobDTO.description())
-                .level(jobDTO.level())
-                .build();
+        try {
+            var jobCreated = jobUseCase.create(UUID.fromString(companyId), jobDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(jobMapper.toDTO(jobCreated));
 
-        return jobUseCase.execute(jobEntity);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-
 }

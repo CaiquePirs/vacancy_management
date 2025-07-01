@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -26,13 +27,17 @@ public class JobEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     private String level;
 
+    @Column(nullable = false)
     private String benefits;
 
-    private UUID idCompany;
+    @Column(nullable = false)
+    private BigDecimal salary;
 
     private JobStatus status;
 
