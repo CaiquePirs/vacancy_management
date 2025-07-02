@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,21 +27,15 @@ public class JobController {
 
     @PostMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<Object> create(@RequestBody @Valid JobCreateRequestDTO jobDTO, HttpServletRequest request){
+    public ResponseEntity<JobResponseDTO> create(@RequestBody @Valid JobCreateRequestDTO jobDTO, HttpServletRequest request) {
         var companyId = request.getAttribute("company_id").toString();
-
-        try {
-            var jobCreated = jobUseCase.create(UUID.fromString(companyId), jobDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(jobMapper.toDTO(jobCreated));
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        var jobCreated = jobUseCase.create(UUID.fromString(companyId), jobDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(jobMapper.toDTO(jobCreated));
     }
 
     @GetMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<Page<JobResponseDTO>> jobList(HttpServletRequest request,
+    public ResponseEntity<Page<JobResponseDTO>> listJobsByCompany(HttpServletRequest request,
                                                         @RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "10") int size){
 
@@ -63,41 +56,29 @@ public class JobController {
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<Object> delete(@PathVariable(name = "id") UUID jobId, HttpServletRequest request){
+    public ResponseEntity<Void> delete(@PathVariable(name = "id") UUID jobId, HttpServletRequest request) {
         var companyId = request.getAttribute("company_id").toString();
-
-        try {
-            jobUseCase.delete(UUID.fromString(companyId), jobId);
-            return ResponseEntity.noContent().build();
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        jobUseCase.delete(UUID.fromString(companyId), jobId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('COMPANY')")
     public ResponseEntity<JobResponseDTO> update(@RequestBody @Valid JobUpdateRequestDTO jobDTO,
                                                  @PathVariable(name = "id") UUID jobId,
-                                                 HttpServletRequest request){
+                                                 HttpServletRequest request) {
 
         var companyId = request.getAttribute("company_id").toString();
-        var jobUpdated = jobUseCase.update(UUID.fromString(companyId), jobId , jobDTO);
+        var jobUpdated = jobUseCase.update(UUID.fromString(companyId), jobId, jobDTO);
         return ResponseEntity.ok(jobMapper.toDTO(jobUpdated));
     }
 
     @PatchMapping("{id}")
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<Object> toggleJobStatus(@PathVariable(name = "id") UUID jobId, HttpServletRequest request){
+    public ResponseEntity<Void> toggleJobStatus(@PathVariable(name = "id") UUID jobId, HttpServletRequest request) {
         var companyId = request.getAttribute("company_id").toString();
-
-        try {
-            jobUseCase.toggleJobStatus(UUID.fromString(companyId), jobId);
-            return ResponseEntity.noContent().build();
-
-       } catch (Exception e){
-           return ResponseEntity.badRequest().body(e.getMessage());
-       }
+        jobUseCase.toggleJobStatus(UUID.fromString(companyId), jobId);
+        return ResponseEntity.noContent().build();
     }
 
 }
