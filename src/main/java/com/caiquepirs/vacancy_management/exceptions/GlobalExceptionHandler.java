@@ -19,15 +19,56 @@ public class GlobalExceptionHandler {
     private final MessageSource messageSource;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<ErrorMessageDTO>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseEntity<List<ErrorMessageDTO>> handleMethodArgumentNotValid(MethodArgumentNotValidException e){
         List<ErrorMessageDTO> dto = new ArrayList<>();
 
         e.getBindingResult().getFieldErrors()
                 .forEach(err -> {
                     String message = messageSource.getMessage(err, LocaleContextHolder.getLocale());
-                    ErrorMessageDTO error = new ErrorMessageDTO(message, err.getField());
+                    ErrorMessageDTO error = new ErrorMessageDTO(err.getField(), message);
                     dto.add(error);
                 });
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handlerUserNotFound(UserNotFoundException e) {
+        ErrorMessageDTO error = new ErrorMessageDTO("User", e.getMessage());
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                HttpStatus.NOT_FOUND.value(),
+                e.getMessage(),
+                List.of(error));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(UserFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handlerUserFound(UserFoundException e) {
+        ErrorMessageDTO error = new ErrorMessageDTO("User", e.getMessage());
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                e.getMessage(),
+                List.of(error));
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
+    }
+
+    @ExceptionHandler(JobNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handlerJobNotFound(JobNotFoundException e){
+        ErrorMessageDTO error = new ErrorMessageDTO("Job", e.getMessage());
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                HttpStatus.NOT_FOUND.value(),
+                e.getMessage(),
+                List.of(error));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(DuplicateRecordException.class)
+    public ResponseEntity<ErrorResponseDTO> handlerDuplicateRecord(DuplicateRecordException e){
+        ErrorMessageDTO error = new ErrorMessageDTO("Conflict", e.getMessage());
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                HttpStatus.CONFLICT.value(),
+                e.getMessage(),
+                List.of(error));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
 }

@@ -1,4 +1,4 @@
 package com.caiquepirs.vacancy_management.exceptions;
 
-public record ErrorMessageDTO(String message, String field) {
+public record ErrorMessageDTO(String field, String message) {
 }
