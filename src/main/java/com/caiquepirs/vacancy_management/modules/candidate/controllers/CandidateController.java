@@ -65,14 +65,14 @@ public class CandidateController {
         }
     }
 
-    @PostMapping("/job/{jobId}/applications")
+    @PostMapping("/jobs/{id}/appy")
     @PreAuthorize("hasRole('CANDIDATE')")
-    public ResponseEntity<Object> applyToJob(@PathVariable UUID jobId, HttpServletRequest request){
+    public ResponseEntity<Object> applyToJob(@PathVariable UUID id, HttpServletRequest request){
+        var idCandidate = request.getAttribute("candidate_id").toString();
 
         try {
-            var idCandidate = request.getAttribute("candidate_id").toString();
-            var resultApplication = jobApplicationUseCase.execute(UUID.fromString(idCandidate), jobId);
-            return ResponseEntity.status(HttpStatus.CREATED).body(resultApplication);
+            jobApplicationUseCase.execute(UUID.fromString(idCandidate), id);
+            return ResponseEntity.noContent().build();
 
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -39,6 +39,7 @@ public class JobEntity {
     @Column(nullable = false)
     private BigDecimal salary;
 
+    @Enumerated(EnumType.STRING)
     private JobStatus status;
 
     @ManyToOne
