@@ -1,10 +1,10 @@
-package com.caiquepirs.vacancy_management.modules.company.controllers;
+package com.caiquepirs.vacancy_management.modules.job.controllers;
 
-import com.caiquepirs.vacancy_management.modules.company.dto.JobRequestDTO;
-import com.caiquepirs.vacancy_management.modules.company.dto.JobResponseDTO;
-import com.caiquepirs.vacancy_management.modules.company.dto.JobUpdateRequestDTO;
-import com.caiquepirs.vacancy_management.modules.company.mappers.JobMapper;
-import com.caiquepirs.vacancy_management.modules.company.useCases.JobUseCase;
+import com.caiquepirs.vacancy_management.modules.job.dto.JobCreateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.job.dto.JobResponseDTO;
+import com.caiquepirs.vacancy_management.modules.job.dto.JobUpdateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.job.mappers.JobMapper;
+import com.caiquepirs.vacancy_management.modules.job.useCases.JobUseCase;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ public class JobController {
 
     @PostMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<Object> create(@RequestBody @Valid JobRequestDTO jobDTO, HttpServletRequest request){
+    public ResponseEntity<Object> create(@RequestBody @Valid JobCreateRequestDTO jobDTO, HttpServletRequest request){
         var companyId = request.getAttribute("company_id").toString();
 
         try {
@@ -45,7 +45,7 @@ public class JobController {
                                                         @RequestParam(defaultValue = "10") int size){
 
         var companyId  = request.getAttribute("company_id").toString();
-        var jobsList = jobUseCase.listJobs(UUID.fromString(companyId), page, size);
+        var jobsList = jobUseCase.listJobsByCompany(UUID.fromString(companyId), page, size);
         return ResponseEntity.ok().body(jobsList);
     }
 

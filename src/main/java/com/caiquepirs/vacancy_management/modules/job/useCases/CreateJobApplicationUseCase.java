@@ -1,11 +1,11 @@
-package com.caiquepirs.vacancy_management.modules.company.useCases;
+package com.caiquepirs.vacancy_management.modules.job.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.DuplicateRecordException;
 import com.caiquepirs.vacancy_management.exceptions.JobNotFoundException;
 import com.caiquepirs.vacancy_management.exceptions.UserNotFoundException;
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateRepository;
-import com.caiquepirs.vacancy_management.modules.company.enuns.JobStatus;
-import com.caiquepirs.vacancy_management.modules.company.repositories.JobRepository;
+import com.caiquepirs.vacancy_management.modules.candidate.repositories.CandidateRepository;
+import com.caiquepirs.vacancy_management.modules.job.enuns.JobStatus;
+import com.caiquepirs.vacancy_management.modules.job.repositories.JobRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

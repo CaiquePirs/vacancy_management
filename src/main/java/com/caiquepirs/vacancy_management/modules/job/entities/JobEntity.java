@@ -1,7 +1,8 @@
-package com.caiquepirs.vacancy_management.modules.company.entities;
+package com.caiquepirs.vacancy_management.modules.job.entities;
 
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateEntity;
-import com.caiquepirs.vacancy_management.modules.company.enuns.JobStatus;
+import com.caiquepirs.vacancy_management.modules.candidate.entities.CandidateEntity;
+import com.caiquepirs.vacancy_management.modules.company.entities.CompanyEntity;
+import com.caiquepirs.vacancy_management.modules.job.enuns.JobStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.caiquepirs.vacancy_management.modules.candidate;
+package com.caiquepirs.vacancy_management.modules.candidate.entities;
 
-import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

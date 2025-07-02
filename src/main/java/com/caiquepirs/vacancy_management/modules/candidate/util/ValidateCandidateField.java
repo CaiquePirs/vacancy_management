@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.candidate.util;
 
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateEntity;
+import com.caiquepirs.vacancy_management.modules.candidate.entities.CandidateEntity;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

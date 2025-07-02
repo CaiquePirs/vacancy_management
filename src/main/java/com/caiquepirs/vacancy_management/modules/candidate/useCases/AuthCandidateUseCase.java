@@ -2,9 +2,8 @@ package com.caiquepirs.vacancy_management.modules.candidate.useCases;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
 import com.caiquepirs.vacancy_management.exceptions.UserNotFoundException;
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateRepository;
+import com.caiquepirs.vacancy_management.modules.candidate.repositories.CandidateRepository;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateResponseDTO;
 import org.springframework.beans.factory.annotation.Value;

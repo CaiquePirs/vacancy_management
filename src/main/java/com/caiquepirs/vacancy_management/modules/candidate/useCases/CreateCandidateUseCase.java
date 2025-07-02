@@ -1,9 +1,9 @@
 package com.caiquepirs.vacancy_management.modules.candidate.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateEntity;
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateRepository;
+import com.caiquepirs.vacancy_management.modules.candidate.entities.CandidateEntity;
+import com.caiquepirs.vacancy_management.modules.candidate.mappers.CandidateMapper;
+import com.caiquepirs.vacancy_management.modules.candidate.repositories.CandidateRepository;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateRequestDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

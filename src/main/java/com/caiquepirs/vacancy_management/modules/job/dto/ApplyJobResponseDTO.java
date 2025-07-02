@@ -1,6 +1,6 @@
-package com.caiquepirs.vacancy_management.modules.company.dto;
+package com.caiquepirs.vacancy_management.modules.job.dto;
 
-import com.caiquepirs.vacancy_management.modules.company.enuns.JobStatus;
+import com.caiquepirs.vacancy_management.modules.job.enuns.JobStatus;
 import lombok.*;
 
 @Getter

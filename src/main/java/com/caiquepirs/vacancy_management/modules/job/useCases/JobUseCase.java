@@ -1,14 +1,15 @@
-package com.caiquepirs.vacancy_management.modules.company.useCases;
+package com.caiquepirs.vacancy_management.modules.job.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.JobNotFoundException;
-import com.caiquepirs.vacancy_management.modules.company.dto.JobRequestDTO;
-import com.caiquepirs.vacancy_management.modules.company.dto.JobResponseDTO;
-import com.caiquepirs.vacancy_management.modules.company.dto.JobUpdateRequestDTO;
-import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
-import com.caiquepirs.vacancy_management.modules.company.enuns.JobStatus;
-import com.caiquepirs.vacancy_management.modules.company.mappers.JobMapper;
-import com.caiquepirs.vacancy_management.modules.company.repositories.JobRepository;
-import com.caiquepirs.vacancy_management.modules.company.util.ValidateUpdateJobField;
+import com.caiquepirs.vacancy_management.modules.company.useCases.ProfileCompanyUseCase;
+import com.caiquepirs.vacancy_management.modules.job.dto.JobCreateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.job.dto.JobResponseDTO;
+import com.caiquepirs.vacancy_management.modules.job.dto.JobUpdateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.job.enuns.JobStatus;
+import com.caiquepirs.vacancy_management.modules.job.mappers.JobMapper;
+import com.caiquepirs.vacancy_management.modules.job.repositories.JobRepository;
+import com.caiquepirs.vacancy_management.modules.job.utils.ValidateUpdateJobField;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +27,7 @@ public class JobUseCase {
     private final JobMapper jobMapper;
     private final ValidateUpdateJobField validateJob;
 
-    public JobEntity create(UUID companyID, JobRequestDTO jobDTO){
+    public JobEntity create(UUID companyID, JobCreateRequestDTO jobDTO){
         var companyId = companyUseCase.getProfile(companyID);
 
         var job = jobMapper.toEntity(jobDTO);
@@ -36,11 +37,11 @@ public class JobUseCase {
         return jobRepository.save(job);
     }
 
-    public Page<JobResponseDTO> listJobs(UUID companyId, int page, int size){
+    public Page<JobResponseDTO> listJobsByCompany(UUID companyId, int page, int size){
         return jobRepository.findByCompanyId(companyId, PageRequest.of(page, size))
                 .map(jobMapper::toDTO);
     }
-
+    
     public JobEntity update(UUID companyId, UUID jobId, JobUpdateRequestDTO jobDTO){
         var company = companyUseCase.getProfile(companyId);
 

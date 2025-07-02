@@ -2,13 +2,13 @@ package com.caiquepirs.vacancy_management.modules.candidate.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
 import com.caiquepirs.vacancy_management.exceptions.UserNotFoundException;
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateRepository;
+import com.caiquepirs.vacancy_management.modules.candidate.mappers.CandidateMapper;
+import com.caiquepirs.vacancy_management.modules.candidate.repositories.CandidateRepository;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.util.ValidateCandidateField;
-import com.caiquepirs.vacancy_management.modules.company.dto.ApplyJobResponseDTO;
-import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.job.dto.ApplyJobResponseDTO;
+import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

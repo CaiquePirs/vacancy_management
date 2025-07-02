@@ -1,5 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.company.entities;
 
+import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

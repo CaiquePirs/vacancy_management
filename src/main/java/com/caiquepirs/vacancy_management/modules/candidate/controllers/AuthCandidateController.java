@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
+import com.caiquepirs.vacancy_management.modules.candidate.mappers.CandidateMapper;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.AuthCandidateUseCase;

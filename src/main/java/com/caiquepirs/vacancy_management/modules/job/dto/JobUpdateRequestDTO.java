@@ -1,4 +1,4 @@
-package com.caiquepirs.vacancy_management.modules.company.dto;
+package com.caiquepirs.vacancy_management.modules.job.dto;
 
 import java.math.BigDecimal;
 

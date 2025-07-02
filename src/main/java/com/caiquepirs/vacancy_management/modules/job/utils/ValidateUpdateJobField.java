@@ -1,7 +1,7 @@
-package com.caiquepirs.vacancy_management.modules.company.util;
+package com.caiquepirs.vacancy_management.modules.job.utils;
 
-import com.caiquepirs.vacancy_management.modules.company.dto.JobUpdateRequestDTO;
-import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.job.dto.JobUpdateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
 import org.springframework.stereotype.Component;
 
 @Component

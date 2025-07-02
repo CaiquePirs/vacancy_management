@@ -1,9 +1,9 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
-import com.caiquepirs.vacancy_management.modules.company.useCases.CreateJobApplicationUseCase;
+import com.caiquepirs.vacancy_management.modules.job.useCases.CreateJobApplicationUseCase;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.ProfileCandidateUseCase;
-import com.caiquepirs.vacancy_management.modules.company.dto.ApplyJobResponseDTO;
+import com.caiquepirs.vacancy_management.modules.job.dto.ApplyJobResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
