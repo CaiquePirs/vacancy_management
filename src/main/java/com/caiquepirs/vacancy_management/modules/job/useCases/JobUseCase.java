@@ -2,7 +2,9 @@ package com.caiquepirs.vacancy_management.modules.job.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.JobNotFoundException;
 import com.caiquepirs.vacancy_management.modules.company.useCases.ProfileCompanyUseCase;
+import com.caiquepirs.vacancy_management.modules.job.specifications.JobSpecification;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobCreateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.job.dto.JobFilterDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobResponseDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
@@ -41,7 +43,12 @@ public class JobUseCase {
         return jobRepository.findByCompanyId(companyId, PageRequest.of(page, size))
                 .map(jobMapper::toDTO);
     }
-    
+
+    public Page<JobResponseDTO> listJobsByFilter(JobFilterDTO dto, int page, int size) {
+        var listJobs = jobRepository.findAll(JobSpecification.filterBy(dto), PageRequest.of(page, size));
+        return listJobs.map(jobMapper::toDTO);
+    }
+
     public JobEntity update(UUID companyId, UUID jobId, JobUpdateRequestDTO jobDTO){
         var company = companyUseCase.getProfile(companyId);
 

@@ -1,6 +1,7 @@
 package com.caiquepirs.vacancy_management.modules.job.controllers;
 
 import com.caiquepirs.vacancy_management.modules.job.dto.JobCreateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.job.dto.JobFilterDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobResponseDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.mappers.JobMapper;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -49,6 +51,15 @@ public class JobController {
         return ResponseEntity.ok().body(jobsList);
     }
 
+    @GetMapping("/filter")
+    @PreAuthorize("hasAnyRole('COMPANY', 'CANDIDATE')")
+    public ResponseEntity<Page<JobResponseDTO>> filterJobs(@ModelAttribute JobFilterDTO filterDTO,
+                                                           @RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "10") int size) {
+        var listJobs = jobUseCase.listJobsByFilter(filterDTO, page, size);
+        return ResponseEntity.ok(listJobs);
+    }
+
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('COMPANY')")
@@ -67,7 +78,7 @@ public class JobController {
     @PutMapping("{id}")
     @PreAuthorize("hasRole('COMPANY')")
     public ResponseEntity<JobResponseDTO> update(@RequestBody @Valid JobUpdateRequestDTO jobDTO,
-                                                 @PathVariable(name = "id" ) UUID jobId,
+                                                 @PathVariable(name = "id") UUID jobId,
                                                  HttpServletRequest request){
 
         var companyId = request.getAttribute("company_id").toString();
