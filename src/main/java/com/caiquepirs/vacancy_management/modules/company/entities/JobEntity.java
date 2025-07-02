@@ -46,7 +46,7 @@ public class JobEntity {
     @JoinColumn(name = "company_id")
     private CompanyEntity company;
 
-    @ManyToMany(mappedBy = "myJobApplications")
+    @ManyToMany(mappedBy = "jobApplications")
     private List<CandidateEntity> candidates;
 
     @CreationTimestamp

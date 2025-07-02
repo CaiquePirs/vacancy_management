@@ -2,15 +2,14 @@ package com.caiquepirs.vacancy_management.modules.candidate.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
 import com.caiquepirs.vacancy_management.exceptions.UserNotFoundException;
-import com.caiquepirs.vacancy_management.modules.candidate.CandidateEntity;
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateMapper;
 import com.caiquepirs.vacancy_management.modules.candidate.CandidateRepository;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.util.ValidateCandidateField;
+import com.caiquepirs.vacancy_management.modules.company.dto.ApplyJobResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,8 +54,22 @@ public class ProfileCandidateUseCase {
         return candidateMapper.toResponseDTO(existProfile);
     }
 
-    public List<JobEntity> myJobApplications(UUID id){
-        return repository.findById(id).get().getMyJobApplications();
+    public List<ApplyJobResponseDTO> jobApplications(UUID candidateId) {
+        var candidate = repository.findById(candidateId)
+                .orElseThrow(() -> new UserNotFoundException("Candidate not found"));
+
+        List<JobEntity> jobs = candidate.getJobApplications();
+
+        return jobs.stream()
+                .map(job -> ApplyJobResponseDTO.builder()
+                        .companyName(job.getCompany().getName())
+                        .jobDescription(job.getDescription())
+                        .jobLevel(job.getLevel())
+                        .candidateName(candidate.getName())
+                        .candidateEmail(candidate.getEmail())
+                        .jobStatus(job.getStatus())
+                        .build())
+                .toList();
     }
 
 }

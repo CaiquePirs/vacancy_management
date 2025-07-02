@@ -1,9 +1,9 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
-import com.caiquepirs.vacancy_management.modules.candidate.useCases.CreateJobApplicationUseCase;
+import com.caiquepirs.vacancy_management.modules.company.useCases.CreateJobApplicationUseCase;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.ProfileCandidateUseCase;
-import com.caiquepirs.vacancy_management.modules.company.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.company.dto.ApplyJobResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -80,17 +80,15 @@ public class CandidateController {
     }
 
 
-    @GetMapping("/job/applications")
+    @GetMapping("/jobs/applications")
     @PreAuthorize("hasRole('CANDIDATE')")
-    public ResponseEntity<List<JobEntity>> getMyJobApplications(HttpServletRequest request){
-        var idCandidate = request.getAttribute("candidate_id").toString();
+    public ResponseEntity<List<ApplyJobResponseDTO>> getJobApplications(HttpServletRequest request) {
+        String candidateIdStr = request.getAttribute("candidate_id").toString();
 
-        try {
-            var lisJobs = profileCandidateUseCase.myJobApplications(UUID.fromString(idCandidate));
-            return ResponseEntity.ok(lisJobs);
+            UUID candidateId = UUID.fromString(candidateIdStr);
+            List<ApplyJobResponseDTO> listJobs = profileCandidateUseCase.jobApplications(candidateId);
 
-        } catch (Exception e) {
-            return ResponseEntity.noContent().build();
-        }
+            return ResponseEntity.ok(listJobs);
+
     }
 }

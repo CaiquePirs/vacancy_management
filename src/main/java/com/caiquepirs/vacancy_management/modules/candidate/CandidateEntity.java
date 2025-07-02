@@ -38,7 +38,7 @@ public class CandidateEntity {
     @JoinTable(name = "candidate_job_applications",
               joinColumns = @JoinColumn(name = "candidate_id"),
               inverseJoinColumns = @JoinColumn(name = "job_id"))
-    private List<JobEntity> myJobApplications;
+    private List<JobEntity> jobApplications;
 
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
