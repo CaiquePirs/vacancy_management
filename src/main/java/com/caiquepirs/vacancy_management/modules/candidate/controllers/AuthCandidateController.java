@@ -1,5 +1,7 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
+import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateResponseDTO;
+import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.mappers.CandidateMapper;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateRequestDTO;
@@ -24,26 +26,21 @@ public class AuthCandidateController {
     private final CreateCandidateUseCase CreateCandidateUseCase;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody @Valid AuthCandidateRequestDTO authCandidateDTO){
+    public ResponseEntity<AuthCandidateResponseDTO> login(@RequestBody @Valid AuthCandidateRequestDTO authCandidateDTO){
         try{
             var token = authCandidateUseCase.execute(authCandidateDTO);
             return ResponseEntity.ok(token);
 
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody @Valid ProfileCandidateRequestDTO candidateDTO){
-        try {
+    public ResponseEntity<ProfileCandidateResponseDTO> register(@RequestBody @Valid ProfileCandidateRequestDTO candidateDTO){
             var candidateEntity = CreateCandidateUseCase.execute(candidateDTO);
             var candidateResponseDTO = candidateMapper.toResponseDTO(candidateEntity);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(candidateResponseDTO);
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
     }
 }

@@ -1,5 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
+import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.useCases.CreateJobApplicationUseCase;
 import com.caiquepirs.vacancy_management.modules.candidate.useCases.ProfileCandidateUseCase;
@@ -7,7 +8,6 @@ import com.caiquepirs.vacancy_management.modules.job.dto.ApplyJobResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,70 +25,43 @@ public class CandidateController {
 
     @GetMapping
     @PreAuthorize("hasRole('CANDIDATE')")
-    public ResponseEntity<Object> getProfile(HttpServletRequest request) {
-        var idCandidate = request.getAttribute("candidate_id");
-
-        try {
-            var profile = profileCandidateUseCase.getProfile(UUID.fromString(idCandidate.toString()));
-            return ResponseEntity.ok().body(profile);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ProfileCandidateResponseDTO> getProfile(HttpServletRequest request) {
+        var candidateId = request.getAttribute("candidate_id");
+        var profile = profileCandidateUseCase.getProfile(UUID.fromString(candidateId.toString()));
+        return ResponseEntity.ok().body(profile);
     }
 
     @DeleteMapping
     @PreAuthorize("hasRole('CANDIDATE')")
-    public ResponseEntity<Object> deleteProfile(HttpServletRequest request){
-        var idCandidate = request.getAttribute("candidate_id");
-
-        try {
-             profileCandidateUseCase.deleteProfile(UUID.fromString(idCandidate.toString()));
-             return ResponseEntity.noContent().build();
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-
-        }
+    public ResponseEntity<Void> deleteProfile(HttpServletRequest request) {
+        var candidateId = request.getAttribute("candidate_id");
+        profileCandidateUseCase.deleteProfile(UUID.fromString(candidateId.toString()));
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping
     @PreAuthorize("hasRole('CANDIDATE')")
-    public ResponseEntity<Object> updateProfile(HttpServletRequest request,
-                                                @RequestBody @Valid ProfileUpdateCandidateRequestDTO profileDTO){
-        var idCandidate = request.getAttribute("candidate_id").toString();
-
-        try {
-            var profileUpdated = profileCandidateUseCase.updateProfile(UUID.fromString(idCandidate), profileDTO);
-            return ResponseEntity.ok(profileUpdated);
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ProfileCandidateResponseDTO> updateProfile(HttpServletRequest request,
+                                                @RequestBody @Valid ProfileUpdateCandidateRequestDTO profileDTO) {
+        var candidateId = request.getAttribute("candidate_id").toString();
+        var profileUpdated = profileCandidateUseCase.updateProfile(UUID.fromString(candidateId), profileDTO);
+        return ResponseEntity.ok(profileUpdated);
     }
 
     @PostMapping("/jobs/{id}/appy")
     @PreAuthorize("hasRole('CANDIDATE')")
-    public ResponseEntity<Object> applyToJob(@PathVariable UUID id, HttpServletRequest request){
-        var idCandidate = request.getAttribute("candidate_id").toString();
-
-        try {
-            jobApplicationUseCase.execute(UUID.fromString(idCandidate), id);
-            return ResponseEntity.noContent().build();
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<Void> applyToJob(@PathVariable UUID id, HttpServletRequest request) {
+        var candidateId = request.getAttribute("candidate_id").toString();
+        jobApplicationUseCase.execute(UUID.fromString(candidateId), id);
+        return ResponseEntity.noContent().build();
     }
 
 
     @GetMapping("/jobs/applications")
     @PreAuthorize("hasRole('CANDIDATE')")
     public ResponseEntity<List<ApplyJobResponseDTO>> getJobApplications(HttpServletRequest request) {
-        String candidateIdStr = request.getAttribute("candidate_id").toString();
-
-            UUID candidateId = UUID.fromString(candidateIdStr);
-            List<ApplyJobResponseDTO> listJobs = profileCandidateUseCase.jobApplications(candidateId);
-
-            return ResponseEntity.ok(listJobs);
-
+        var candidateId = request.getAttribute("candidate_id").toString();
+        List<ApplyJobResponseDTO> listJobs = profileCandidateUseCase.jobApplications(UUID.fromString(candidateId));
+        return ResponseEntity.ok(listJobs);
     }
 }
