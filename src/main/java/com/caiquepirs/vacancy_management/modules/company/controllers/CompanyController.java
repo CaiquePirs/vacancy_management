@@ -1,5 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
+import com.caiquepirs.vacancy_management.modules.company.dto.CompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.mappers.CompanyMapper;
 import com.caiquepirs.vacancy_management.modules.company.useCases.ProfileCompanyUseCase;
@@ -22,47 +23,28 @@ public class CompanyController {
 
     @GetMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<Object> getProfile(HttpServletRequest request) {
+    public ResponseEntity<CompanyResponseDTO> getProfile(HttpServletRequest request) {
         var companyId = request.getAttribute("company_id").toString();
-
-        try {
-            var companyProfile = companyUseCase.getProfile(UUID.fromString(companyId));
-            return ResponseEntity.ok(companyMapper.toDTO(companyProfile));
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        var companyProfile = companyUseCase.getProfile(UUID.fromString(companyId));
+        return ResponseEntity.ok(companyMapper.toDTO(companyProfile));
     }
 
     @DeleteMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<Object> deleteProfile(HttpServletRequest request) {
+    public ResponseEntity<Void> deleteProfile(HttpServletRequest request) {
         var companyId = request.getAttribute("company_id").toString();
-
-        try {
-            companyUseCase.deleteProfile(UUID.fromString(companyId));
-            return ResponseEntity.noContent().build();
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        companyUseCase.deleteProfile(UUID.fromString(companyId));
+        return ResponseEntity.noContent().build();
     }
 
 
     @PutMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<Object> updateProfile(@RequestBody @Valid CompanyUpdateRequestDTO companyDTO,
+    public ResponseEntity<CompanyResponseDTO> updateProfile(@RequestBody @Valid CompanyUpdateRequestDTO companyDTO,
                                                 HttpServletRequest request) {
         var companyId = request.getAttribute("company_id").toString();
-
-        try {
-            var companyUpdated = companyUseCase.updateProfile(UUID.fromString(companyId), companyDTO);
-            return ResponseEntity.ok(companyMapper.toDTO(companyUpdated));
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        var companyUpdated = companyUseCase.updateProfile(UUID.fromString(companyId), companyDTO);
+        return ResponseEntity.ok(companyMapper.toDTO(companyUpdated));
     }
-
 
 }

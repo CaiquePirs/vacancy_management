@@ -45,10 +45,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handlerUserFound(UserFoundException e) {
         ErrorMessageDTO error = new ErrorMessageDTO("User", e.getMessage());
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(
-                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                HttpStatus.CONFLICT.value(),
                 e.getMessage(),
                 List.of(error));
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
     @ExceptionHandler(JobNotFoundException.class)

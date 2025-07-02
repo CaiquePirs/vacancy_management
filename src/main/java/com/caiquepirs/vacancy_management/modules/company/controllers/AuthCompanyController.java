@@ -1,7 +1,9 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyRequestDTO;
+import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyCreateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.company.dto.CompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.mappers.CompanyMapper;
 import com.caiquepirs.vacancy_management.modules.company.useCases.AuthCompanyUseCase;
 import com.caiquepirs.vacancy_management.modules.company.useCases.CreateCompanyUseCase;
@@ -24,25 +26,19 @@ public class AuthCompanyController {
     private final CompanyMapper companyMapper;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody AuthCompanyRequestDTO companyDTO) {
-       try {
-           var result = authCompanyUseCase.execute(companyDTO);
-           return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    public ResponseEntity<AuthCompanyResponseDTO> login(@RequestBody AuthCompanyRequestDTO companyDTO) {
+        try {
+            var result = authCompanyUseCase.execute(companyDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(result);
 
-       } catch (Exception e){
-           return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-       }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody @Valid CompanyCreateRequestDTO companyCreateRequestDTO){
-        try {
-            var companyCreated = createCompanyUseCase.execute(companyCreateRequestDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(companyMapper.toDTO(companyCreated));
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
+    public ResponseEntity<CompanyResponseDTO> register(@RequestBody @Valid CompanyCreateRequestDTO companyCreateRequestDTO) {
+        var companyCreated = createCompanyUseCase.execute(companyCreateRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(companyMapper.toDTO(companyCreated));
     }
 }
