@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.naming.AuthenticationException;
+
 @RestController
 @RequestMapping("/candidate/auth")
 @AllArgsConstructor
@@ -26,15 +28,9 @@ public class AuthCandidateController {
     private final CreateCandidateUseCase CreateCandidateUseCase;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthCandidateResponseDTO> login(@RequestBody @Valid AuthCandidateRequestDTO authCandidateDTO){
-        try{
-            var token = authCandidateUseCase.execute(authCandidateDTO);
-            return ResponseEntity.ok(token);
-
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
+    public ResponseEntity<AuthCandidateResponseDTO> login(@RequestBody @Valid AuthCandidateRequestDTO authCandidateDTO) throws AuthenticationException {
+        var token = authCandidateUseCase.execute(authCandidateDTO);
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/register")
