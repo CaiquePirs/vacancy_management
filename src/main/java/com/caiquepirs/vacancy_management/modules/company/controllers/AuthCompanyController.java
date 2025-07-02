@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.naming.AuthenticationException;
+
 @RestController
 @RequestMapping("/company/auth")
 @AllArgsConstructor
@@ -26,14 +28,9 @@ public class AuthCompanyController {
     private final CompanyMapper companyMapper;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthCompanyResponseDTO> login(@RequestBody AuthCompanyRequestDTO companyDTO) {
-        try {
+    public ResponseEntity<AuthCompanyResponseDTO> login(@RequestBody AuthCompanyRequestDTO companyDTO) throws AuthenticationException {
             var result = authCompanyUseCase.execute(companyDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(result);
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
     }
 
     @PostMapping("/register")
