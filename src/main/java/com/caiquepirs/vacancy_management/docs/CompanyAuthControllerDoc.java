@@ -1,4 +1,4 @@
-package com.caiquepirs.vacancy_management.docs.companyDocs;
+package com.caiquepirs.vacancy_management.docs;
 
 import com.caiquepirs.vacancy_management.exceptions.ErrorResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyRequestDTO;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.naming.AuthenticationException;
 
-@Tag(name = "Company authentication", description = "endpoints for managing company authentication")
+@Tag(name = "Company authentication", description = "endpoints to managing company authentication")
 public interface CompanyAuthControllerDoc {
 
     @Operation(summary = "Company Login", description = "company login")

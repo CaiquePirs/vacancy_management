@@ -1,5 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.job.controllers;
 
+import com.caiquepirs.vacancy_management.docs.JobControllerDoc;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobCreateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobFilterDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobResponseDTO;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/company/jobs")
 @AllArgsConstructor
-public class JobController {
+public class JobController implements JobControllerDoc {
 
     private final JobUseCase jobUseCase;
     private final JobMapper jobMapper;

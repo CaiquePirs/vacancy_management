@@ -1,4 +1,4 @@
-package com.caiquepirs.vacancy_management.docs.companyDocs;
+package com.caiquepirs.vacancy_management.docs;
 
 import com.caiquepirs.vacancy_management.exceptions.ErrorResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyResponseDTO;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = "Company", description = "Endpoints for managing companies")
+@Tag(name = "Company", description = "Endpoints to managing company")
 public interface CompanyControllerDoc {
 
 

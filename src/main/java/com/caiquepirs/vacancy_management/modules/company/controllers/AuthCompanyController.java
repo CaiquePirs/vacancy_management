@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
-import com.caiquepirs.vacancy_management.docs.companyDocs.CompanyAuthControllerDoc;
+import com.caiquepirs.vacancy_management.docs.CompanyAuthControllerDoc;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyCreateRequestDTO;

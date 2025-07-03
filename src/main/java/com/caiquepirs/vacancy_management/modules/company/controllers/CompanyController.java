@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
-import com.caiquepirs.vacancy_management.docs.companyDocs.CompanyControllerDoc;
+import com.caiquepirs.vacancy_management.docs.CompanyControllerDoc;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.mappers.CompanyMapper;
