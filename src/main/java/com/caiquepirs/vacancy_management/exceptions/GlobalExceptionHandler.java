@@ -73,6 +73,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponseDTO> HandlerInvalidCredentials(InvalidCredentialsException e){
+        ErrorMessageDTO error = new ErrorMessageDTO("Login", e.getMessage());
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                HttpStatus.FORBIDDEN.value(),
+                e.getMessage(),
+                List.of(error));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+
+
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponseDTO> handleInvalidFormat(HttpMessageNotReadableException ex) {
         String message = "Invalid input format. Please check the data sent.";
