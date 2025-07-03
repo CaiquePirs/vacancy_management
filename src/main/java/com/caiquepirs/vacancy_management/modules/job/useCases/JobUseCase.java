@@ -72,6 +72,9 @@ public class JobUseCase {
                 .findFirst()
                 .orElseThrow(() -> new JobNotFoundException("Job not found"));
 
+        job.getCandidates()
+                .forEach(candidate -> candidate.getJobApplications().remove(job));
+
         job.getCandidates().clear();
         jobRepository.delete(job);
     }
