@@ -19,6 +19,14 @@ spring:
     hibernate:
       ddl-auto: update
 
+
+  web:
+    resources:
+      add-mappings: false
+
 logging:
   pattern:
     console: '%clr(%d{dd-MM-yyyy HH:mm:ss}){faint} %clr(%5p) %clr([%t]){faint} %clr(%-40.40logger){cyan} %clr(:){yellow} %m%n'
+
+springdoc:
+  override-with-generic-response: false
