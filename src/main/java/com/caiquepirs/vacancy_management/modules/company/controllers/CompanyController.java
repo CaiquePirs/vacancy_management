@@ -1,5 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
+import com.caiquepirs.vacancy_management.docs.companyDocs.CompanyControllerDoc;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.mappers.CompanyMapper;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/company")
 @AllArgsConstructor
-public class CompanyController {
+public class CompanyController implements CompanyControllerDoc {
 
     private final ProfileCompanyUseCase companyUseCase;
     private final CompanyMapper companyMapper;

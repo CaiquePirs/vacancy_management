@@ -1,5 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
+import com.caiquepirs.vacancy_management.docs.companyDocs.CompanyAuthControllerDoc;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyCreateRequestDTO;
@@ -21,7 +22,7 @@ import javax.naming.AuthenticationException;
 @RestController
 @RequestMapping("/company/auth")
 @AllArgsConstructor
-public class AuthCompanyController {
+public class AuthCompanyController implements CompanyAuthControllerDoc {
 
     private final AuthCompanyUseCase authCompanyUseCase;
     private final CreateCompanyUseCase createCompanyUseCase;
@@ -30,7 +31,7 @@ public class AuthCompanyController {
     @PostMapping("/login")
     public ResponseEntity<AuthCompanyResponseDTO> login(@RequestBody AuthCompanyRequestDTO companyDTO) throws AuthenticationException {
             var result = authCompanyUseCase.execute(companyDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(result);
+            return ResponseEntity.ok().body(result);
     }
 
     @PostMapping("/register")
