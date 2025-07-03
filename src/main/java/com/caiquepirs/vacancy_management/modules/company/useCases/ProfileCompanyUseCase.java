@@ -2,6 +2,7 @@ package com.caiquepirs.vacancy_management.modules.company.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
 import com.caiquepirs.vacancy_management.exceptions.UserNotFoundException;
+import com.caiquepirs.vacancy_management.modules.candidate.repositories.CandidateRepository;
 import com.caiquepirs.vacancy_management.modules.company.utils.ValidateUpdateCompanyField;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.entities.CompanyEntity;
@@ -30,13 +31,16 @@ public class ProfileCompanyUseCase {
     }
 
     @Transactional
-    public void deleteProfile(UUID id){
+    public void deleteProfile(UUID id) {
         var company = companyRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Company not found"));
 
         List<JobEntity> jobs = new ArrayList<>(company.getVacanciesCreated());
 
-        for(JobEntity job : jobs){
+        for (JobEntity job : jobs) {
+            job.getCandidates()
+                    .forEach(candidate -> candidate.getJobApplications().remove(job));
+
             job.getCandidates().clear();
             job.setCompany(null);
             jobRepository.delete(job);
