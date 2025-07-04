@@ -49,11 +49,11 @@ public class CandidateController implements CandidateControllerDoc {
         return ResponseEntity.ok(profileUpdated);
     }
 
-    @PostMapping("/jobs/{id}/appy")
+    @PostMapping("/jobs/{jobId}/appy")
     @PreAuthorize("hasRole('CANDIDATE')")
-    public ResponseEntity<Void> applyToJob(@PathVariable UUID id, HttpServletRequest request) {
+    public ResponseEntity<Void> applyToJob(@PathVariable UUID jobId, HttpServletRequest request) {
         var candidateId = request.getAttribute("candidate_id").toString();
-        jobApplicationUseCase.execute(UUID.fromString(candidateId), id);
+        jobApplicationUseCase.execute(UUID.fromString(candidateId), jobId);
         return ResponseEntity.noContent().build();
     }
 

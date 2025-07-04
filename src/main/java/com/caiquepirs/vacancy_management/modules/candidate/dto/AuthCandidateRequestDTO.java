@@ -7,6 +7,6 @@ public record AuthCandidateRequestDTO(
                     @Schema(description = "Access username of the candidate", example = "Caique")
                     String username,
 
-                    @Schema(description = "Password of the company", example = "caique123")
+                    @Schema(description = "Password of the candidate", example = "caique123")
                     String password) {
 }
