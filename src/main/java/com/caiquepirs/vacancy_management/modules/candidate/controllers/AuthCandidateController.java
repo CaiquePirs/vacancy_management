@@ -1,5 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
+import com.caiquepirs.vacancy_management.docs.CandidateAuthControllerDoc;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.mappers.CandidateMapper;
@@ -16,19 +17,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.naming.AuthenticationException;
-
 @RestController
 @RequestMapping("/candidate/auth")
 @AllArgsConstructor
-public class AuthCandidateController {
+public class AuthCandidateController implements CandidateAuthControllerDoc {
 
     private final AuthCandidateUseCase authCandidateUseCase;
     private final CandidateMapper candidateMapper;
     private final CreateCandidateUseCase CreateCandidateUseCase;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthCandidateResponseDTO> login(@RequestBody @Valid AuthCandidateRequestDTO authCandidateDTO) throws AuthenticationException {
+    public ResponseEntity<AuthCandidateResponseDTO> login(@RequestBody @Valid AuthCandidateRequestDTO authCandidateDTO) {
         var token = authCandidateUseCase.execute(authCandidateDTO);
         return ResponseEntity.ok(token);
     }

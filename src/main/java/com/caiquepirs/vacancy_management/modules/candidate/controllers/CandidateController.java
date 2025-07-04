@@ -1,5 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 
+import com.caiquepirs.vacancy_management.docs.CandidateControllerDoc;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.useCases.CreateJobApplicationUseCase;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/candidate")
 @AllArgsConstructor
-public class CandidateController {
+public class CandidateController implements CandidateControllerDoc {
 
     private final ProfileCandidateUseCase profileCandidateUseCase;
     private final CreateJobApplicationUseCase jobApplicationUseCase;
