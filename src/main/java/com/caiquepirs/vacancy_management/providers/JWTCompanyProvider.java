@@ -28,7 +28,6 @@ public class JWTCompanyProvider {
                     .build()
                     .verify(token);
         } catch (JWTVerificationException e) {
-            e.printStackTrace();
             return null;
         }
     }
