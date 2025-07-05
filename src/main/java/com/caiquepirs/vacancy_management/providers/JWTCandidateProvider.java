@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class JWTCandidateProvider {
 
-    private final String secretToken;
+    private final String secretKey;
 
-    public JWTCandidateProvider(@Value("${SECRET_TOKEN}") String secretToken){
-        this.secretToken = secretToken;
+    public JWTCandidateProvider(@Value("${SECRET_KEY_CANDIDATE}") String secretKey){
+        this.secretKey = secretKey;
     }
 
     public DecodedJWT validateToken(String token){
@@ -21,7 +21,7 @@ public class JWTCandidateProvider {
             token = token.substring(7).trim();
         }
 
-        Algorithm algorithm = Algorithm.HMAC256(secretToken);
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         try {
             return JWT.require(algorithm)

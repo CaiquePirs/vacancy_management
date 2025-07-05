@@ -19,14 +19,14 @@ public class AuthCompanyUseCase {
 
     private final CompanyRepository companyRepository;
     private final PasswordEncoder passwordEncoder;
-    private final String secretToken;
+    private final String secretKey;
 
     public AuthCompanyUseCase(CompanyRepository companyRepository, PasswordEncoder passwordEncoder,
-                              @Value("${SECRET_TOKEN}") String secretToken) {
+                              @Value("${SECRET_KEY_COMPANY}") String secretToken) {
 
         this.passwordEncoder = passwordEncoder;
         this.companyRepository = companyRepository;
-        this.secretToken = secretToken;
+        this.secretKey = secretToken;
     }
 
         public AuthCompanyResponseDTO execute(AuthCompanyRequestDTO authCompanyRequestDTO) {
@@ -39,7 +39,7 @@ public class AuthCompanyUseCase {
             throw new InvalidCredentialsException("Username/password incorrect");
         }
 
-        Algorithm algorithm = Algorithm.HMAC256(secretToken);
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         var expireIn = Instant.now().plus(Duration.ofHours(2));
 

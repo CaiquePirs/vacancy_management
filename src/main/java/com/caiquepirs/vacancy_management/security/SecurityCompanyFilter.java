@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.security;
 
-import com.caiquepirs.vacancy_management.providers.JWTProvider;
+import com.caiquepirs.vacancy_management.providers.JWTCompanyProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,9 +16,9 @@ import java.io.IOException;
 
 @Component
 @AllArgsConstructor
-public class SecurityFilter extends OncePerRequestFilter {
+public class SecurityCompanyFilter extends OncePerRequestFilter {
 
-    private final JWTProvider jwtProvider;
+    private final JWTCompanyProvider jwtCompanyProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -28,7 +28,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if (request.getRequestURI().startsWith("/company")) {
             if (header != null) {
-                var token = jwtProvider.validateToken(header);
+                var token = jwtCompanyProvider.validateToken(header);
 
                 if (token == null) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

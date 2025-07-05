@@ -19,13 +19,13 @@ public class AuthCandidateUseCase {
 
     private final CandidateRepository repository;
     private final PasswordEncoder encoder;
-    private final String secretToken;
+    private final String secretKey;
 
     public AuthCandidateUseCase(CandidateRepository repository, PasswordEncoder encoder,
-                                @Value("${SECRET_TOKEN}") String secretToken) {
+                                @Value("${SECRET_KEY_CANDIDATE}") String secretToken) {
         this.repository = repository;
         this.encoder = encoder;
-        this.secretToken = secretToken;
+        this.secretKey = secretToken;
     }
 
     public AuthCandidateResponseDTO execute(AuthCandidateRequestDTO candidateRequestDTO) {
@@ -38,7 +38,7 @@ public class AuthCandidateUseCase {
             throw new InvalidCredentialsException("Username/password incorrect");
         }
 
-        Algorithm algorithm = Algorithm.HMAC256(secretToken);
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
         var expiresIn = Instant.now().plus(Duration.ofMinutes(10));
 
         var token = JWT.create()

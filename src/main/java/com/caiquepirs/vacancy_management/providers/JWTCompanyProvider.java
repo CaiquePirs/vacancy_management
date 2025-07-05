@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JWTProvider {
+public class JWTCompanyProvider {
 
-    private final String secretToken;
+    private final String secretKey;
 
-    public JWTProvider(@Value("${SECRET_TOKEN}") String secretToken){
-        this.secretToken = secretToken;
+    public JWTCompanyProvider(@Value("${SECRET_KEY_COMPANY}") String secretKey){
+        this.secretKey = secretKey;
     }
 
     public DecodedJWT validateToken(String token){
@@ -21,7 +21,7 @@ public class JWTProvider {
             token = token.substring(7).trim();
         }
 
-        Algorithm algorithm = Algorithm.HMAC256(secretToken);
+        Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
         try {
             return JWT.require(algorithm)

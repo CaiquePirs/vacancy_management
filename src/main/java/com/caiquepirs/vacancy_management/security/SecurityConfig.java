@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final SecurityFilter securityFilter;
+    private final SecurityCompanyFilter securityFilter;
     private final SecurityCandidateFilter securityCandidateFilter;
 
     @Bean
