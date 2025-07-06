@@ -30,3 +30,20 @@ logging:
 
 springdoc:
   override-with-generic-response: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - metrics
+          - prometheus
+  endpoint:
+    health:
+      access: unrestricted
+    metrics:
+      access: unrestricted
+    prometheus:
+      access: unrestricted
+

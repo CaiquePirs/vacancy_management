@@ -1,4 +1,4 @@
-package com.caiquepirs.vacancy_management.docs;
+package com.caiquepirs.vacancy_management.config;
 
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "Job Manager API",
+                title = "Vacancy Management API",
                 version = "v1",
                 description = "API to manage company job openings and candidate applications",
                 contact = @Contact(
@@ -28,5 +28,5 @@ import org.springframework.context.annotation.Configuration;
         scheme = "bearer",
         bearerFormat = "JWT"
 )
-public class ApenApiConfig {
+public class OpenApiConfig {
 }

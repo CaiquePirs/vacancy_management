@@ -1,6 +1,41 @@
 version: '3.8'
 
+networks:
+  gv-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+  prometheus_data:
+  grafana_data:
+
 services:
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus-config:/etc/prometheus
+      - prometheus_data:/prometheus
+    networks:
+      - gv-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    networks:
+      - gv-network
+
   postgres:
     image: postgres:16
     container_name: vacancy_management
@@ -13,18 +48,18 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - gv-network
 
   pgadmin:
-      image: dpage/pgadmin4
-      container_name: meu_pgadmin
-      environment:
-        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      ports:
-        - "5050:80"
-      depends_on:
-        - postgres
-
-volumes:
-  pgdata:
-
+    image: dpage/pgadmin4
+    container_name: meu_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - gv-network

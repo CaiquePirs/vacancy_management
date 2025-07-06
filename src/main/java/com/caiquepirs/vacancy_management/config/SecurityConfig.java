@@ -1,5 +1,7 @@
-package com.caiquepirs.vacancy_management.security;
+package com.caiquepirs.vacancy_management.config;
 
+import com.caiquepirs.vacancy_management.security.SecurityCandidateFilter;
+import com.caiquepirs.vacancy_management.security.SecurityCompanyFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.POST, "/candidate/auth/**").permitAll()
                             .requestMatchers(HttpMethod.POST,"/company/auth/**").permitAll()
+                            .requestMatchers("/actuator/**").permitAll()
                             .requestMatchers(
                             "/v3/api-docs/**",
                             "/v3/api-docs.yaml",
