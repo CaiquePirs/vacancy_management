@@ -7,18 +7,18 @@ spring:
       enabled: ALWAYS
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/vacancy_management
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
 
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-
 
   web:
     resources:
