@@ -1,0 +1,19 @@
+name: Vacancy Management Application
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v3
+
+      - name: Java Setup
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
