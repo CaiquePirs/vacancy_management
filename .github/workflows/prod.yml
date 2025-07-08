@@ -17,3 +17,16 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
+
+      - name: Application Build
+        run: mvn clean install -DskipTests
+
+      - name: Docker hub login
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker Imagen Build
+        run: docker build -t caiquepirs/vacancy_management .
+
+      - name: Imagen Push
+        run: docker push caiquepirs/vacancy_management
+
