@@ -3,6 +3,7 @@ name: Vacancy Management Application
 on:
   push:
     branches: [main]
+    workflow_dispatch:
 
 jobs:
   build:
