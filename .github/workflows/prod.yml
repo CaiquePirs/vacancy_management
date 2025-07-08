@@ -21,12 +21,32 @@ jobs:
       - name: Application Build
         run: mvn clean install -DskipTests
 
-      - name: Docker hub login
+      - name: Docker Hub Login
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Docker Imagen Build
+      - name: Docker Image Build
         run: docker build -t caiquepirs/vacancy_management .
 
-      - name: Imagen Push
+      - name: Docker Image Push
         run: docker push caiquepirs/vacancy_management
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull Docker Image
+        run: docker pull caiquepirs/vacancy_management:latest
+
+      - name: Remove Old Container
+        run: docker rm -f vacancy-management || true
+
+      - name: Run New Container
+        run: docker run -d -p 8080:8080 \
+          -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+          -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} \
+          -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+          --name vacancy-management \
+          caiquepirs/vacancy_management:latest
+
 
