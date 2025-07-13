@@ -1,6 +1,6 @@
 # 🚀 Vacancy Management Application
 
-A backend system for managing job vacancies, designed to demonstrate real-world deployment, authentication, and database integration. Deployed on **AWS EC2**, backed by **PostgreSQL via RDS**, containerized with **Docker**, and powered by **GitHub Actions** for continuous delivery.
+A scalable and production-ready Job Vacancy Management API, built to support the full cycle of job management for companies and candidate interactions. This backend system handles job postings, candidate applications, and enterprise registration — delivering secure, performant, and automated backend infrastructure.
 
 ---
 
