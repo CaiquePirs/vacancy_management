@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.caiquepirs.vacancy_management.exceptions.InvalidCredentialsException;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyResponseDTO;
+import com.caiquepirs.vacancy_management.modules.company.entities.Company;
 import com.caiquepirs.vacancy_management.modules.company.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +31,7 @@ public class AuthCompanyUseCase {
     }
 
         public AuthCompanyResponseDTO execute(AuthCompanyRequestDTO authCompanyRequestDTO) {
-        var company = companyRepository.findByUsername(authCompanyRequestDTO.username())
+        Company company = companyRepository.findByUsername(authCompanyRequestDTO.username())
                 .orElseThrow(() -> new InvalidCredentialsException("Username/password incorrect"));
 
         boolean matches = passwordEncoder.matches(authCompanyRequestDTO.password(), company.getPassword());
@@ -40,8 +41,7 @@ public class AuthCompanyUseCase {
         }
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-
-        var expireIn = Instant.now().plus(Duration.ofHours(2));
+        Instant expireIn = Instant.now().plus(Duration.ofHours(2));
 
         var token = JWT.create().withIssuer("jobAPI")
                 .withExpiresAt(expireIn)

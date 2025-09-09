@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.docs;
 
-import com.caiquepirs.vacancy_management.exceptions.ErrorResponseDTO;
+import com.caiquepirs.vacancy_management.exceptions.dtos.ErrorResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyCreateRequestDTO;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.naming.AuthenticationException;
 
 @Tag(name = "Company authentication", description = "endpoints to managing company authentication")
-public interface CompanyAuthControllerDoc {
+public interface CompanyAuthApi {
 
     @Operation(summary = "Company Login", description = "company login")
     @ApiResponses({
@@ -41,9 +41,6 @@ public interface CompanyAuthControllerDoc {
     })
     @PostMapping("/login")
     public ResponseEntity<AuthCompanyResponseDTO> login(@RequestBody AuthCompanyRequestDTO companyDTO)  throws AuthenticationException;
-
-
-
 
     @Operation(summary = "Company Register", description = "company register")
     @ApiResponses({

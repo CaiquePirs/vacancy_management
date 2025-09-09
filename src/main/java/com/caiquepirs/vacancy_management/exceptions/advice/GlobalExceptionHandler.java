@@ -1,5 +1,8 @@
-package com.caiquepirs.vacancy_management.exceptions;
+package com.caiquepirs.vacancy_management.exceptions.advice;
 
+import com.caiquepirs.vacancy_management.exceptions.*;
+import com.caiquepirs.vacancy_management.exceptions.dtos.ErrorMessageDTO;
+import com.caiquepirs.vacancy_management.exceptions.dtos.ErrorResponseDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

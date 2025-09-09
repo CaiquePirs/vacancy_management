@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.docs;
 
-import com.caiquepirs.vacancy_management.exceptions.ErrorResponseDTO;
+import com.caiquepirs.vacancy_management.exceptions.dtos.ErrorResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.ApplyJobResponseDTO;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "Candidate", description = "Endpoints to managing candidates")
-public interface CandidateControllerDoc {
+public interface CandidateApi {
 
 
     @Operation(summary = "Get Profile", description = "Get the candidate profile data")

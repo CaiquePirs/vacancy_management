@@ -1,8 +1,9 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
-import com.caiquepirs.vacancy_management.docs.CompanyControllerDoc;
+import com.caiquepirs.vacancy_management.docs.CompanyApi;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.company.entities.Company;
 import com.caiquepirs.vacancy_management.modules.company.mappers.CompanyMapper;
 import com.caiquepirs.vacancy_management.modules.company.useCases.ProfileCompanyUseCase;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,22 +18,23 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/company")
 @AllArgsConstructor
-public class CompanyController implements CompanyControllerDoc {
+public class CompanyController implements CompanyApi {
 
     private final ProfileCompanyUseCase companyUseCase;
     private final CompanyMapper companyMapper;
+    private final HttpServletRequest request;
 
     @GetMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<CompanyResponseDTO> getProfile(HttpServletRequest request) {
+    public ResponseEntity<CompanyResponseDTO> getProfile() {
         var companyId = request.getAttribute("company_id").toString();
-        var companyProfile = companyUseCase.getProfile(UUID.fromString(companyId));
+        Company companyProfile = companyUseCase.getProfile(UUID.fromString(companyId));
         return ResponseEntity.ok(companyMapper.toDTO(companyProfile));
     }
 
     @DeleteMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<Void> deleteProfile(HttpServletRequest request) {
+    public ResponseEntity<Void> deleteProfile() {
         var companyId = request.getAttribute("company_id").toString();
         companyUseCase.deleteProfile(UUID.fromString(companyId));
         return ResponseEntity.noContent().build();
@@ -41,11 +43,10 @@ public class CompanyController implements CompanyControllerDoc {
 
     @PutMapping
     @PreAuthorize("hasRole('COMPANY')")
-    public ResponseEntity<CompanyResponseDTO> updateProfile(@RequestBody @Valid CompanyUpdateRequestDTO companyDTO,
-                                                HttpServletRequest request) {
+    public ResponseEntity<CompanyResponseDTO> updateProfile(@RequestBody @Valid CompanyUpdateRequestDTO companyDTO) {
         var companyId = request.getAttribute("company_id").toString();
-        var companyUpdated = companyUseCase.updateProfile(UUID.fromString(companyId), companyDTO);
-        return ResponseEntity.ok(companyMapper.toDTO(companyUpdated));
+        Company company = companyUseCase.updateProfile(UUID.fromString(companyId), companyDTO);
+        return ResponseEntity.ok(companyMapper.toDTO(company));
     }
 
 }

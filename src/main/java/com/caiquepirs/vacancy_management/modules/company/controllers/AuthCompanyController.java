@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.company.controllers;
 
-import com.caiquepirs.vacancy_management.docs.CompanyAuthControllerDoc;
+import com.caiquepirs.vacancy_management.docs.CompanyAuthApi;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.AuthCompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyCreateRequestDTO;
@@ -22,7 +22,7 @@ import javax.naming.AuthenticationException;
 @RestController
 @RequestMapping("/company/auth")
 @AllArgsConstructor
-public class AuthCompanyController implements CompanyAuthControllerDoc {
+public class AuthCompanyController implements CompanyAuthApi {
 
     private final AuthCompanyUseCase authCompanyUseCase;
     private final CreateCompanyUseCase createCompanyUseCase;

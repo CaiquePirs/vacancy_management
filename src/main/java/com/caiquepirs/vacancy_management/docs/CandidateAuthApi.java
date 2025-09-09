@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.docs;
 
-import com.caiquepirs.vacancy_management.exceptions.ErrorResponseDTO;
+import com.caiquepirs.vacancy_management.exceptions.dtos.ErrorResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateRequestDTO;
@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "Candidate authentication", description = "endpoints to managing candidate authentication")
-public interface CandidateAuthControllerDoc {
+public interface CandidateAuthApi {
 
 
     @Operation(summary = "Candidate Login", description = "Candidate login")

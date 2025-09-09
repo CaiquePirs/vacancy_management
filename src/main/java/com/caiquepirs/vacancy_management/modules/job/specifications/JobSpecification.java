@@ -1,7 +1,7 @@
 package com.caiquepirs.vacancy_management.modules.job.specifications;
 
 import com.caiquepirs.vacancy_management.modules.job.dto.JobFilterDTO;
-import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.job.entities.Job;
 import com.caiquepirs.vacancy_management.modules.job.enuns.JobStatus;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -11,7 +11,7 @@ import jakarta.persistence.criteria.Predicate;
 
 public class JobSpecification {
 
-    public static Specification<JobEntity> filterBy(JobFilterDTO dto) {
+    public static Specification<Job> filterBy(JobFilterDTO dto) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 

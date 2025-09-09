@@ -2,11 +2,10 @@ package com.caiquepirs.vacancy_management.modules.company.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
 import com.caiquepirs.vacancy_management.exceptions.UserNotFoundException;
-import com.caiquepirs.vacancy_management.modules.candidate.repositories.CandidateRepository;
+import com.caiquepirs.vacancy_management.modules.company.entities.Company;
 import com.caiquepirs.vacancy_management.modules.company.utils.ValidateUpdateCompanyField;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
-import com.caiquepirs.vacancy_management.modules.company.entities.CompanyEntity;
-import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.job.entities.Job;
 import com.caiquepirs.vacancy_management.modules.company.repositories.CompanyRepository;
 import com.caiquepirs.vacancy_management.modules.job.repositories.JobRepository;
 import lombok.AllArgsConstructor;
@@ -25,33 +24,31 @@ public class ProfileCompanyUseCase {
     private final JobRepository jobRepository;
     private final ValidateUpdateCompanyField validate;
 
-    public CompanyEntity getProfile(UUID id){
+    public Company getProfile(UUID id){
         return companyRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("Company not found"));
+                .orElseThrow(() -> new UserNotFoundException("Company ID not found"));
     }
 
     @Transactional
     public void deleteProfile(UUID id) {
-        var company = companyRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("Company not found"));
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Company ID not found"));
 
-        List<JobEntity> jobs = new ArrayList<>(company.getVacanciesCreated());
+        List<Job> jobs = new ArrayList<>(company.getVacanciesCreated());
 
-        for (JobEntity job : jobs) {
-            job.getCandidates()
-                    .forEach(candidate -> candidate.getJobApplications().remove(job));
+        for (Job job : jobs) {
+            job.getCandidates().forEach(candidate -> candidate.getJobApplications().remove(job));
 
             job.getCandidates().clear();
             job.setCompany(null);
             jobRepository.delete(job);
         }
-
         companyRepository.delete(company);
     }
 
-    public CompanyEntity updateProfile(UUID companyId, CompanyUpdateRequestDTO companyDTO){
-        var company = getProfile(companyId);
-        var companyUpdated = validate.validate(company, companyDTO);
+    public Company updateProfile(UUID companyId, CompanyUpdateRequestDTO companyDTO){
+        Company company = getProfile(companyId);
+        Company companyUpdated = validate.validate(company, companyDTO);
 
         companyRepository.findByUsernameOrEmail(companyUpdated.getUsername(), companyUpdated.getEmail())
                 .ifPresent(companyFound -> {
@@ -59,7 +56,6 @@ public class ProfileCompanyUseCase {
                         throw new UserFoundException("This username or email is already in use");
                     }
                 });
-
         return companyRepository.save(companyUpdated);
 
     }

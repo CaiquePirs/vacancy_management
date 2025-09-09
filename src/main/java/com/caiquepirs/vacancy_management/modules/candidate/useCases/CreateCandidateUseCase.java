@@ -1,7 +1,7 @@
 package com.caiquepirs.vacancy_management.modules.candidate.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
-import com.caiquepirs.vacancy_management.modules.candidate.entities.CandidateEntity;
+import com.caiquepirs.vacancy_management.modules.candidate.entities.Candidate;
 import com.caiquepirs.vacancy_management.modules.candidate.mappers.CandidateMapper;
 import com.caiquepirs.vacancy_management.modules.candidate.repositories.CandidateRepository;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateRequestDTO;
@@ -17,14 +17,14 @@ public class CreateCandidateUseCase {
     private final PasswordEncoder encoder;
     private final CandidateMapper candidateMapper;
 
-    public CandidateEntity execute(ProfileCandidateRequestDTO candidateDTO) {
+    public Candidate execute(ProfileCandidateRequestDTO candidateDTO) {
         repository.findByUsernameOrEmail(candidateDTO.getUsername(), candidateDTO.getEmail())
                 .ifPresent(candidateEntity -> {
                    throw  new UserFoundException("This User already exist");
                 });
 
-        var passwordEncoder = encoder.encode(candidateDTO.getPassword());
-        var candidate = candidateMapper.toEntity(candidateDTO);
+        String passwordEncoder = encoder.encode(candidateDTO.getPassword());
+        Candidate candidate = candidateMapper.toEntity(candidateDTO);
         candidate.setPassword(passwordEncoder);
 
         return repository.save(candidate);

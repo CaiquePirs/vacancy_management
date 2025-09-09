@@ -1,13 +1,14 @@
 package com.caiquepirs.vacancy_management.modules.job.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.JobNotFoundException;
+import com.caiquepirs.vacancy_management.modules.company.entities.Company;
 import com.caiquepirs.vacancy_management.modules.company.useCases.ProfileCompanyUseCase;
+import com.caiquepirs.vacancy_management.modules.job.entities.Job;
 import com.caiquepirs.vacancy_management.modules.job.specifications.JobSpecification;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobCreateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobFilterDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobResponseDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobUpdateRequestDTO;
-import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
 import com.caiquepirs.vacancy_management.modules.job.enuns.JobStatus;
 import com.caiquepirs.vacancy_management.modules.job.mappers.JobMapper;
 import com.caiquepirs.vacancy_management.modules.job.repositories.JobRepository;
@@ -29,11 +30,11 @@ public class JobUseCase {
     private final JobMapper jobMapper;
     private final ValidateUpdateJobField validateJob;
 
-    public JobEntity create(UUID companyID, JobCreateRequestDTO jobDTO){
-        var companyId = companyUseCase.getProfile(companyID);
+    public Job create(UUID companyID, JobCreateRequestDTO jobDTO){
+        Company company = companyUseCase.getProfile(companyID);
 
-        var job = jobMapper.toEntity(jobDTO);
-        job.setCompany(companyId);
+        Job job = jobMapper.toEntity(jobDTO);
+        job.setCompany(company);
         job.setStatus(JobStatus.ACTIVE);
 
         return jobRepository.save(job);
@@ -45,54 +46,50 @@ public class JobUseCase {
     }
 
     public Page<JobResponseDTO> listJobsByFilter(JobFilterDTO dto, int page, int size) {
-        var listJobs = jobRepository.findAll(JobSpecification.filterBy(dto), PageRequest.of(page, size));
+        Page<Job> listJobs = jobRepository.findAll(JobSpecification.filterBy(dto), PageRequest.of(page, size));
         return listJobs.map(jobMapper::toDTO);
     }
 
-    public JobEntity update(UUID companyId, UUID jobId, JobUpdateRequestDTO jobDTO){
-        var company = companyUseCase.getProfile(companyId);
+    public Job update(UUID companyId, UUID jobId, JobUpdateRequestDTO jobDTO){
+        Company company = companyUseCase.getProfile(companyId);
 
-        JobEntity job = company.getVacanciesCreated()
+        Job job = company.getVacanciesCreated()
                 .stream()
                 .filter(j -> j.getId().equals(jobId))
                 .findFirst()
-                .orElseThrow(() -> new JobNotFoundException("Job not found"));
+                .orElseThrow(() -> new JobNotFoundException("Job ID not found"));
 
-        var jobUpdated = validateJob.validate(job, jobDTO);
+        Job jobUpdated = validateJob.validate(job, jobDTO);
         return jobRepository.save(jobUpdated);
     }
 
     @Transactional
     public void delete(UUID companyID, UUID jobId) {
-        var company = companyUseCase.getProfile(companyID);
+        Company company = companyUseCase.getProfile(companyID);
 
-        JobEntity job = company.getVacanciesCreated()
+        Job job = company.getVacanciesCreated()
                 .stream()
                 .filter(j -> j.getId().equals(jobId))
                 .findFirst()
-                .orElseThrow(() -> new JobNotFoundException("Job not found"));
+                .orElseThrow(() -> new JobNotFoundException("Job ID not found"));
 
-        job.getCandidates()
-                .forEach(candidate -> candidate.getJobApplications().remove(job));
+        job.getCandidates().forEach(candidate -> candidate.getJobApplications().remove(job));
 
         job.getCandidates().clear();
         jobRepository.delete(job);
     }
 
     public void toggleJobStatus(UUID companyId, UUID jobId) {
-        var company = companyUseCase.getProfile(companyId);
+        Company company = companyUseCase.getProfile(companyId);
 
-        JobEntity job = company.getVacanciesCreated()
+        Job job = company.getVacanciesCreated()
                 .stream()
                 .filter(j -> j.getId().equals(jobId))
                 .findFirst()
                 .orElseThrow(() -> new JobNotFoundException("Job not found"));
 
-        if (job.getStatus().equals(JobStatus.ACTIVE)) {
-            job.setStatus(JobStatus.INACTIVE);
-        } else {
-            job.setStatus(JobStatus.ACTIVE);
-        }
+        if (job.getStatus().equals(JobStatus.ACTIVE)) job.setStatus(JobStatus.INACTIVE);
+        else job.setStatus(JobStatus.ACTIVE);
 
         jobRepository.save(job);
     }

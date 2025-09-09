@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.docs;
 
-import com.caiquepirs.vacancy_management.exceptions.ErrorResponseDTO;
+import com.caiquepirs.vacancy_management.exceptions.dtos.ErrorResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyResponseDTO;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "Company", description = "Endpoints to managing company")
-public interface CompanyControllerDoc {
-
+public interface CompanyApi {
 
     @Operation(summary = "Get Company Profile", description = "Find company profile by company ID")
     @ApiResponses({
@@ -40,7 +38,7 @@ public interface CompanyControllerDoc {
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
     @GetMapping
-    public ResponseEntity<CompanyResponseDTO> getProfile(HttpServletRequest request);
+    public ResponseEntity<CompanyResponseDTO> getProfile();
 
 
 
@@ -63,8 +61,7 @@ public interface CompanyControllerDoc {
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
     @PutMapping
-    public ResponseEntity<CompanyResponseDTO> updateProfile(@RequestBody @Valid CompanyUpdateRequestDTO companyDTO,
-                                                            HttpServletRequest request);
+    public ResponseEntity<CompanyResponseDTO> updateProfile(@RequestBody @Valid CompanyUpdateRequestDTO companyDTO);
 
 
 
@@ -87,6 +84,6 @@ public interface CompanyControllerDoc {
             )),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
-    public ResponseEntity<Void> deleteProfile(HttpServletRequest request);
+    public ResponseEntity<Void> deleteProfile();
 
 }

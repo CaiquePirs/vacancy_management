@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.docs;
 
-import com.caiquepirs.vacancy_management.exceptions.ErrorResponseDTO;
+import com.caiquepirs.vacancy_management.exceptions.dtos.ErrorResponseDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobCreateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobFilterDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobResponseDTO;
@@ -21,8 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Tag(name = "Job", description = "Endpoint for companies to manage their created job vacancies")
-public interface JobControllerDoc {
-
+public interface JobApi {
 
     @Operation(summary = "Create Job", description = "Create a job vacancy for a company logged into the system")
     @ApiResponses({
@@ -60,7 +59,7 @@ public interface JobControllerDoc {
             )),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
-    public ResponseEntity<JobResponseDTO> create(@RequestBody @Valid JobCreateRequestDTO jobDTO, HttpServletRequest request);
+    public ResponseEntity<JobResponseDTO> create(@RequestBody @Valid JobCreateRequestDTO jobDTO);
 
 
     @Operation(summary = "List Jobs of a company", description = "Displays the list of job openings created by a company")
@@ -81,8 +80,7 @@ public interface JobControllerDoc {
             )),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
-    public ResponseEntity<Page<JobResponseDTO>> listJobsByCompany(HttpServletRequest request,
-                                                                  @RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<JobResponseDTO>> listJobsByCompany(@RequestParam(defaultValue = "0") int page,
                                                                   @RequestParam(defaultValue = "10") int size);
 
 
@@ -130,7 +128,7 @@ public interface JobControllerDoc {
             )),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
-    public ResponseEntity<Void> delete(@PathVariable(name = "id") UUID jobId, HttpServletRequest request);
+    public ResponseEntity<Void> delete(@PathVariable(name = "id") UUID jobId);
 
     @Operation(
             summary = "Update Job",
@@ -169,11 +167,7 @@ public interface JobControllerDoc {
             )
     })
     @PutMapping("/{id}")
-    public ResponseEntity<JobResponseDTO> update(
-            @RequestBody @Valid JobUpdateRequestDTO jobDTO,
-            @PathVariable(name = "id") UUID jobId,
-            HttpServletRequest request
-    );
+    public ResponseEntity<JobResponseDTO> update(@RequestBody @Valid JobUpdateRequestDTO jobDTO, @PathVariable(name = "id") UUID jobId);
 
     @Operation(
             summary = "Toggle Job Status",
@@ -201,9 +195,6 @@ public interface JobControllerDoc {
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Void> toggleJobStatus(
-            @PathVariable(name = "id") UUID jobId,
-            HttpServletRequest request
-    );
+    public ResponseEntity<Void> toggleJobStatus(@PathVariable(name = "id") UUID jobId);
 
 }

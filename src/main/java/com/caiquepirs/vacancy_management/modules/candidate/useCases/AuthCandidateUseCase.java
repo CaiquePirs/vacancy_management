@@ -3,6 +3,7 @@ package com.caiquepirs.vacancy_management.modules.candidate.useCases;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.caiquepirs.vacancy_management.exceptions.InvalidCredentialsException;
+import com.caiquepirs.vacancy_management.modules.candidate.entities.Candidate;
 import com.caiquepirs.vacancy_management.modules.candidate.repositories.CandidateRepository;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.AuthCandidateResponseDTO;
@@ -29,17 +30,17 @@ public class AuthCandidateUseCase {
     }
 
     public AuthCandidateResponseDTO execute(AuthCandidateRequestDTO candidateRequestDTO) {
-        var candidate = repository.findByUsername(candidateRequestDTO.username())
+        Candidate candidate = repository.findByUsername(candidateRequestDTO.username())
                 .orElseThrow(() -> new InvalidCredentialsException("Username/password incorrect"));
 
-        var matches = encoder.matches(candidateRequestDTO.password(), candidate.getPassword());
+        boolean matches = encoder.matches(candidateRequestDTO.password(), candidate.getPassword());
 
         if(!matches){
             throw new InvalidCredentialsException("Username/password incorrect");
         }
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-        var expiresIn = Instant.now().plus(Duration.ofMinutes(10));
+        Instant expiresIn = Instant.now().plus(Duration.ofMinutes(10));
 
         var token = JWT.create()
                 .withIssuer("jobAPI")

@@ -1,30 +1,18 @@
 package com.caiquepirs.vacancy_management.modules.job.utils;
 
 import com.caiquepirs.vacancy_management.modules.job.dto.JobUpdateRequestDTO;
-import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.job.entities.Job;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ValidateUpdateJobField {
 
-    public JobEntity validate(JobEntity jobEntity, JobUpdateRequestDTO jobDTO){
+    public Job validate(Job job, JobUpdateRequestDTO jobDTO){
+        if (jobDTO.description() != null) job.setDescription(jobDTO.description());
+        if (jobDTO.level() != null) job.setLevel(jobDTO.level());
+        if (jobDTO.benefits() != null)job.setBenefits(jobDTO.benefits());
+        if (jobDTO.salary() != null) job.setSalary(jobDTO.salary());
 
-        if (jobDTO.description() != null) {
-            jobEntity.setDescription(jobDTO.description());
-        }
-
-        if (jobDTO.level() != null) {
-            jobEntity.setLevel(jobDTO.level());
-        }
-
-        if (jobDTO.benefits() != null) {
-            jobEntity.setBenefits(jobDTO.benefits());
-        }
-
-        if (jobDTO.salary() != null) {
-            jobEntity.setSalary(jobDTO.salary());
-        }
-
-        return jobEntity;
+        return job;
     }
 }

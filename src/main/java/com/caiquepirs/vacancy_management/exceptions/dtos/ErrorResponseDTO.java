@@ -1,4 +1,4 @@
-package com.caiquepirs.vacancy_management.exceptions;
+package com.caiquepirs.vacancy_management.exceptions.dtos;
 
 import java.util.List;
 

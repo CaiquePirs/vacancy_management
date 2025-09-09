@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.candidate.entities;
 
-import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.job.entities.Job;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,8 +12,8 @@ import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "Candidates")
-public class CandidateEntity {
+@Table(name = "tb_candidates")
+public class Candidate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -38,7 +38,7 @@ public class CandidateEntity {
     @JoinTable(name = "candidate_job_applications",
               joinColumns = @JoinColumn(name = "candidate_id"),
               inverseJoinColumns = @JoinColumn(name = "job_id"))
-    private List<JobEntity> jobApplications;
+    private List<Job> jobApplications;
 
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
@@ -46,5 +46,5 @@ public class CandidateEntity {
     @UpdateTimestamp
     private LocalDateTime updateTimestamp;
 
-    public CandidateEntity(){}
+    public Candidate(){}
 }

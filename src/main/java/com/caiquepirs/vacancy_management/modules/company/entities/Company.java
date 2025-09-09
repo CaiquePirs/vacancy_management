@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.company.entities;
 
-import com.caiquepirs.vacancy_management.modules.job.entities.JobEntity;
+import com.caiquepirs.vacancy_management.modules.job.entities.Job;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "companies")
+@Table(name = "tb_companies")
 @Data
-public class CompanyEntity {
+public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -38,7 +38,7 @@ public class CompanyEntity {
     private String description;
 
     @OneToMany(mappedBy = "company")
-    private List<JobEntity> vacanciesCreated;
+    private List<Job> vacanciesCreated;
 
     @CreationTimestamp
     private LocalDateTime creationTimestamp;
@@ -46,7 +46,7 @@ public class CompanyEntity {
     @UpdateTimestamp
     private LocalDateTime updateTimestamp;
 
-    public CompanyEntity(){}
+    public Company(){}
 
 
 }
