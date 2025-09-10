@@ -1,87 +1,83 @@
-# 🚀 Vacancy Management Application
+# 🚀 Backend API para Gerenciamento de Vagas
 
-A scalable and production-ready Job Vacancy Management API, built to support the full cycle of job management for companies and candidate interactions. This backend system handles job postings, candidate applications, and enterprise registration — delivering secure, performant, and automated backend infrastructure.
-
----
-
-## 🎯 Features
-
-- 🔐 JWT-based authentication for Candidates & Companies  
-- 👥 User registration and login flows  
-- 📄 Create, read, update, delete job vacancies  
-- 🛡️ Role-based access with Spring Security  
-- 🗃️ PostgreSQL database hosted on AWS RDS  
-- 🚢 Containerized deployment to AWS EC2 via GitHub Actions  
-- 📦 Docker image hosted on GitHub Container Registry (GHCR)  
+Uma API escalável e pronta para produção, desenvolvida para gerenciar todo o ciclo de vagas de emprego, desde o cadastro de empresas e candidatos até a publicação e aplicação em vagas. Este sistema backend oferece uma infraestrutura segura, performática e automatizada.
 
 ---
 
-## 🛠️ Tech Stack
+## 🎯 Funcionalidades
 
-| Layer            | Technologies                           |
+- 🔐 Autenticação baseada em JWT para Candidatos e Empresas
+- 👥 Fluxos de cadastro e login de usuários
+- 📄 Criar, listar, atualizar e excluir vagas de emprego
+- 🛡️ Controle de acesso baseado em papéis com Spring Security
+- 🗃️ Banco de dados PostgreSQL hospedado na AWS RDS
+- 🚢 Implantação conteinerizada na AWS EC2 via GitHub Actions
+- 📦 Imagem Docker hospedada no GitHub Container Registry (GHCR)
+
+---
+
+## 🛠️ Stack Tecnológica
+
+| Camada           | Tecnologias                            |
 |------------------|----------------------------------------|
 | Backend          | Java 21, Spring Boot                   |
-| Security         | JWT, Spring Security                   |
-| Database         | PostgreSQL (AWS RDS)                   |
-| Containerization | Docker, GitHub Container Registry      |
-| Infrastructure   | GitHub Actions, AWS EC2                |
-| CI/CD            | GitHub Actions Workflow                |
+| Segurança        | JWT, Spring Security                   |
+| Banco de Dados   | PostgreSQL (AWS RDS)                   |
+| Conteinerização  | Docker, GitHub Container Registry      |
+| Infraestrutura   | GitHub Actions, AWS EC2                |
+| CI/CD            | Workflow do GitHub Actions             |
 
 ---
 
-## 🧪 Local Development
+## 🧪 Desenvolvimento Local
 
 ```bash
-# Clone repo and build
+# Clonar o repositório e compilar
 git clone https://github.com/caiquepirs/vacancy-management.git
 cd vacancy-management
 mvn clean install
 
-# Build Docker image
+# Construir imagem Docker
 docker build -t vacancy-management .
 
-# Run container with environment variables
+# Executar o container com variáveis de ambiente
 docker run -d -p 8080:8080 \
-  -e DATABASE_URL=jdbc:postgresql://localhost:5432/your_db \
-  -e DATABASE_USERNAME=your_user \
-  -e DATABASE_PASSWORD=your_pass \
-  -e SECRET_KEY_CANDIDATE=your_candidate_jwt_secret \
-  -e SECRET_KEY_COMPANY=your_company_jwt_secret \
+  -e DATABASE_URL=jdbc:postgresql://localhost:5432/seu_banco \
+  -e DATABASE_USERNAME=seu_usuario \
+  -e DATABASE_PASSWORD=sua_senha \
+  -e SECRET_KEY_CANDIDATE=segredo_jwt_candidato \
+  -e SECRET_KEY_COMPANY=segredo_jwt_empresa \
   --name vacancy-management \
   vacancy-management
 ```
 
----
+## 📚 Documentação da API
 
-## 📚 API Documentation
+A interface interativa do Swagger UI está disponível para explorar todos os endpoints e testar requisições/respostas.
 
-Interactive Swagger UI is available to explore all endpoints and test requests/responses.
-
-> Access it via:
-
-```
+**🔗 Acesse em:**
 http://13.53.132.128:8080/swagger-ui/index.html#/
-```
 
-Make sure this path is exposed in your Spring configuration and the port is open in EC2 inbound rules.
 
----
-
-## 🌍 Production Deployment
-
-The app is deployed using GitHub Actions to an AWS EC2 instance. On push to `main`, the workflow:
-
-1. Builds the project with Maven  
-2. Creates a Docker image  
-3. Publishes to GitHub Container Registry  
-4. Connects to EC2 and pulls the new image  
-5. Restarts the container with updated environment configs
+Certifique-se de que esse caminho está exposto na configuração do Spring e que a porta está liberada nas regras de entrada do EC2.
 
 ---
 
-## 🔐 Environment Variables
+## 🌍 Implantação em Produção
 
-Configured via GitHub Secrets and injected during deployment:
+A aplicação é implantada via **GitHub Actions** em uma instância **EC2 da AWS**. Ao realizar push na branch `main`, o workflow executa as seguintes etapas:
+
+1. Compila o projeto com Maven
+2. Cria uma imagem Docker
+3. Publica no GitHub Container Registry
+4. Conecta-se à EC2 e puxa a nova imagem
+5. Reinicia o container com as variáveis de ambiente atualizadas
+
+---
+
+## 🔐 Variáveis de Ambiente
+
+As variáveis são configuradas via **GitHub Secrets** e injetadas durante o processo de deploy:
 
 - `DATABASE_URL`
 - `DATABASE_USERNAME`
@@ -91,36 +87,36 @@ Configured via GitHub Secrets and injected during deployment:
 
 ---
 
-## 💻 Live URL
+## 💻 URL da Aplicação
 
-> Your app is live at:
-
-```
+A aplicação está disponível em:
 http://13.53.132.128:8080/
-```
 
-Make sure port `8080` is open in the EC2 security group!
 
----
-
-## 🙋 Author
-
-Made with passion by [**Caique Pirs**](https://github.com/caiquepirs) 🧑‍💻  
-Connect with me to build smart apps and cooler ideas!
+Certifique-se de que a porta `8080` está liberada no grupo de segurança da instância EC2!
 
 ---
 
-## 🎓 Inspiration
+## 🙋 Autor
 
-This project was built to learn:
-- Real-world backend deployment
-- Automated CI/CD pipelines
-- Cloud infrastructure & container orchestration
-
-And share a bit of developer joy in the process 😄
+Feito com paixão por **Caique Pirs** 🧑‍💻  
+Conecte-se comigo para criar aplicações inteligentes e ideias ainda mais incríveis!
 
 ---
 
-## 📣 Want More?
+## 🎓 Inspiração
 
-Feel free to fork, star, or submit a PR. Got questions or ideas? Drop an issue or hit me up on GitHub!
+Este projeto foi desenvolvido com o objetivo de aprender:
+
+- Implantação backend em ambiente real
+- Pipelines automatizados de CI/CD
+- Infraestrutura em nuvem e orquestração de containers
+
+---
+
+## 📣 Quer contribuir?
+
+Sinta-se à vontade para fazer **fork**, dar uma **estrela** ou enviar um **pull request**.  
+Tem dúvidas ou sugestões? Abra uma **issue** ou fale comigo pelo GitHub!
+
+
