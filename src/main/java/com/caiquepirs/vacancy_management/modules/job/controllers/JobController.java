@@ -7,7 +7,7 @@ import com.caiquepirs.vacancy_management.modules.job.dto.JobResponseDTO;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.entities.Job;
 import com.caiquepirs.vacancy_management.modules.job.mappers.JobMapper;
-import com.caiquepirs.vacancy_management.modules.job.useCases.JobUseCase;
+import com.caiquepirs.vacancy_management.modules.job.useCases.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class JobController implements JobApi {
 
-    private final JobUseCase jobUseCase;
+    private final FindAllJobsByCompanyUseCase findAllJobsByCompanyUseCase;
+    private final DeleteJobProfileUseCase deleteJobProfileUseCase;
+    private final UpdateJobUseCase updateJobUseCase;
+    private final CreateJobUseCase createJobUseCase;
+    private final FindAllJobsByFilterUseCase findAllJobsByFilterUseCase;
+    private final ToggleStatusJobUseCase toggleStatusJobUseCase;
     private final JobMapper jobMapper;
     private final HttpServletRequest request;
 
@@ -32,7 +37,7 @@ public class JobController implements JobApi {
     @PreAuthorize("hasRole('COMPANY')")
     public ResponseEntity<JobResponseDTO> create(@RequestBody @Valid JobCreateRequestDTO jobDTO) {
         var companyId = request.getAttribute("company_id").toString();
-        Job jobCreated = jobUseCase.create(UUID.fromString(companyId), jobDTO);
+        Job jobCreated = createJobUseCase.execute(UUID.fromString(companyId), jobDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(jobMapper.toDTO(jobCreated));
     }
 
@@ -41,8 +46,8 @@ public class JobController implements JobApi {
     public ResponseEntity<Page<JobResponseDTO>> listJobsByCompany(@RequestParam(defaultValue = "0") int page,
                                                                   @RequestParam(defaultValue = "10") int size){
 
-        var companyId  = request.getAttribute("company_id").toString();
-        Page<JobResponseDTO> jobsList = jobUseCase.listJobsByCompany(UUID.fromString(companyId), page, size);
+        var companyId = request.getAttribute("company_id").toString();
+        Page<JobResponseDTO> jobsList = findAllJobsByCompanyUseCase.execute(UUID.fromString(companyId), page, size);
         return ResponseEntity.ok().body(jobsList);
     }
 
@@ -51,7 +56,8 @@ public class JobController implements JobApi {
     public ResponseEntity<Page<JobResponseDTO>> filterJobs(@ModelAttribute JobFilterDTO filterDTO,
                                                            @RequestParam(defaultValue = "0") int page,
                                                            @RequestParam(defaultValue = "10") int size) {
-        Page<JobResponseDTO> listJobs = jobUseCase.listJobsByFilter(filterDTO, page, size);
+
+        Page<JobResponseDTO> listJobs = findAllJobsByFilterUseCase.execute(filterDTO, page, size);
         return ResponseEntity.ok(listJobs);
     }
 
@@ -60,7 +66,7 @@ public class JobController implements JobApi {
     @PreAuthorize("hasRole('COMPANY')")
     public ResponseEntity<Void> delete(@PathVariable(name = "id") UUID jobId) {
         var companyId = request.getAttribute("company_id").toString();
-        jobUseCase.delete(UUID.fromString(companyId), jobId);
+        deleteJobProfileUseCase.execute(UUID.fromString(companyId), jobId);
         return ResponseEntity.noContent().build();
     }
 
@@ -70,7 +76,7 @@ public class JobController implements JobApi {
                                                  @PathVariable(name = "id") UUID jobId) {
 
         var companyId = request.getAttribute("company_id").toString();
-        Job jobUpdated = jobUseCase.update(UUID.fromString(companyId), jobId, jobDTO);
+        Job jobUpdated = updateJobUseCase.execute(UUID.fromString(companyId), jobId, jobDTO);
         return ResponseEntity.ok(jobMapper.toDTO(jobUpdated));
     }
 
@@ -78,7 +84,7 @@ public class JobController implements JobApi {
     @PreAuthorize("hasRole('COMPANY')")
     public ResponseEntity<Void> toggleJobStatus(@PathVariable(name = "id") UUID jobId) {
         var companyId = request.getAttribute("company_id").toString();
-        jobUseCase.toggleJobStatus(UUID.fromString(companyId), jobId);
+        toggleStatusJobUseCase.execute(UUID.fromString(companyId), jobId);
         return ResponseEntity.noContent().build();
     }
 
