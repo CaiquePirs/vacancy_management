@@ -2,7 +2,6 @@ package com.caiquepirs.vacancy_management.modules.job.useCases;
 
 import com.caiquepirs.vacancy_management.exceptions.JobNotFoundException;
 import com.caiquepirs.vacancy_management.modules.company.entities.Company;
-import com.caiquepirs.vacancy_management.modules.company.useCases.ProfileCompanyUseCase;
 import com.caiquepirs.vacancy_management.modules.job.entities.Job;
 import com.caiquepirs.vacancy_management.modules.job.specifications.JobSpecification;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobCreateRequestDTO;
