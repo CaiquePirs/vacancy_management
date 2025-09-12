@@ -3,8 +3,11 @@ package com.caiquepirs.vacancy_management.modules.candidate.controllers;
 import com.caiquepirs.vacancy_management.docs.CandidateApi;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileCandidateResponseDTO;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;
+import com.caiquepirs.vacancy_management.modules.candidate.useCases.DeleteProfileCandidateUseCase;
+import com.caiquepirs.vacancy_management.modules.candidate.useCases.FindProfileCandidateUseCase;
+import com.caiquepirs.vacancy_management.modules.candidate.useCases.GetJobsApplicationCandidateUseCase;
+import com.caiquepirs.vacancy_management.modules.candidate.useCases.UpdateProfileCandidateUseCase;
 import com.caiquepirs.vacancy_management.modules.job.useCases.CreateJobApplicationUseCase;
-import com.caiquepirs.vacancy_management.modules.candidate.useCases.ProfileCandidateUseCase;
 import com.caiquepirs.vacancy_management.modules.job.dto.ApplyJobResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -21,14 +24,17 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CandidateController implements CandidateApi {
 
-    private final ProfileCandidateUseCase profileCandidateUseCase;
     private final CreateJobApplicationUseCase jobApplicationUseCase;
+    private final FindProfileCandidateUseCase findProfileCandidateUseCase;
+    private final UpdateProfileCandidateUseCase updateProfileCandidateUseCase;
+    private final DeleteProfileCandidateUseCase deleteProfileCandidateUseCase;
+    private final GetJobsApplicationCandidateUseCase getJobsApplicationCandidateUseCase;
 
     @GetMapping
     @PreAuthorize("hasRole('CANDIDATE')")
     public ResponseEntity<ProfileCandidateResponseDTO> getProfile(HttpServletRequest request) {
         var candidateId = request.getAttribute("candidate_id");
-        var profile = profileCandidateUseCase.getProfile(UUID.fromString(candidateId.toString()));
+        var profile = findProfileCandidateUseCase.execute(UUID.fromString(candidateId.toString()));
         return ResponseEntity.ok().body(profile);
     }
 
@@ -36,7 +42,7 @@ public class CandidateController implements CandidateApi {
     @PreAuthorize("hasRole('CANDIDATE')")
     public ResponseEntity<Void> deleteProfile(HttpServletRequest request) {
         var candidateId = request.getAttribute("candidate_id");
-        profileCandidateUseCase.deleteProfile(UUID.fromString(candidateId.toString()));
+        deleteProfileCandidateUseCase.execute(UUID.fromString(candidateId.toString()));
         return ResponseEntity.noContent().build();
     }
 
@@ -45,7 +51,7 @@ public class CandidateController implements CandidateApi {
     public ResponseEntity<ProfileCandidateResponseDTO> updateProfile(HttpServletRequest request,
                                                 @RequestBody @Valid ProfileUpdateCandidateRequestDTO profileDTO) {
         var candidateId = request.getAttribute("candidate_id").toString();
-        var profileUpdated = profileCandidateUseCase.updateProfile(UUID.fromString(candidateId), profileDTO);
+        var profileUpdated = updateProfileCandidateUseCase.execute(UUID.fromString(candidateId), profileDTO);
         return ResponseEntity.ok(profileUpdated);
     }
 
@@ -62,7 +68,7 @@ public class CandidateController implements CandidateApi {
     @PreAuthorize("hasRole('CANDIDATE')")
     public ResponseEntity<List<ApplyJobResponseDTO>> getJobApplications(HttpServletRequest request) {
         var candidateId = request.getAttribute("candidate_id").toString();
-        List<ApplyJobResponseDTO> listJobs = profileCandidateUseCase.jobApplications(UUID.fromString(candidateId));
+        var listJobs = getJobsApplicationCandidateUseCase.execute(UUID.fromString(candidateId));
         return ResponseEntity.ok(listJobs);
     }
 }
