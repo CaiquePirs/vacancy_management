@@ -25,7 +25,7 @@ public class ToggleStatusJobUseCase {
                 .stream()
                 .filter(j -> j.getId().equals(jobId))
                 .findFirst()
-                .orElseThrow(() -> new JobNotFoundException("Job not found"));
+                .orElseThrow(() -> new JobNotFoundException("Job ID not found"));
 
         if (job.getStatus().equals(JobStatus.ACTIVE)) job.setStatus(JobStatus.INACTIVE);
         else job.setStatus(JobStatus.ACTIVE);

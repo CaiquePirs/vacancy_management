@@ -7,7 +7,7 @@ import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCand
 import com.caiquepirs.vacancy_management.modules.candidate.entities.Candidate;
 import com.caiquepirs.vacancy_management.modules.candidate.mappers.CandidateMapper;
 import com.caiquepirs.vacancy_management.modules.candidate.repositories.CandidateRepository;
-import com.caiquepirs.vacancy_management.modules.candidate.util.ValidateCandidateField;
+import com.caiquepirs.vacancy_management.modules.candidate.validator.ValidateCandidateField;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

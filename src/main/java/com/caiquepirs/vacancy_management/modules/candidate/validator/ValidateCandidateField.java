@@ -1,4 +1,4 @@
-package com.caiquepirs.vacancy_management.modules.candidate.util;
+package com.caiquepirs.vacancy_management.modules.candidate.validator;
 
 import com.caiquepirs.vacancy_management.modules.candidate.entities.Candidate;
 import com.caiquepirs.vacancy_management.modules.candidate.dto.ProfileUpdateCandidateRequestDTO;

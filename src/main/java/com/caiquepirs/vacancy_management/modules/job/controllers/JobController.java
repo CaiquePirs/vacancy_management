@@ -25,7 +25,7 @@ import java.util.UUID;
 public class JobController implements JobApi {
 
     private final FindAllJobsByCompanyUseCase findAllJobsByCompanyUseCase;
-    private final DeleteJobProfileUseCase deleteJobProfileUseCase;
+    private final DeleteJobUseCase deleteJobUseCase;
     private final UpdateJobUseCase updateJobUseCase;
     private final CreateJobUseCase createJobUseCase;
     private final FindAllJobsByFilterUseCase findAllJobsByFilterUseCase;
@@ -66,7 +66,7 @@ public class JobController implements JobApi {
     @PreAuthorize("hasRole('COMPANY')")
     public ResponseEntity<Void> delete(@PathVariable(name = "id") UUID jobId) {
         var companyId = request.getAttribute("company_id").toString();
-        deleteJobProfileUseCase.execute(UUID.fromString(companyId), jobId);
+        deleteJobUseCase.execute(UUID.fromString(companyId), jobId);
         return ResponseEntity.noContent().build();
     }
 

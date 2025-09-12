@@ -5,9 +5,8 @@ import com.caiquepirs.vacancy_management.modules.company.entities.Company;
 import com.caiquepirs.vacancy_management.modules.company.useCases.FindProfileCompanyUseCase;
 import com.caiquepirs.vacancy_management.modules.job.dto.JobUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.entities.Job;
-import com.caiquepirs.vacancy_management.modules.job.mappers.JobMapper;
 import com.caiquepirs.vacancy_management.modules.job.repositories.JobRepository;
-import com.caiquepirs.vacancy_management.modules.job.utils.ValidateUpdateJobField;
+import com.caiquepirs.vacancy_management.modules.job.validator.ValidateUpdateJobField;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class DeleteJobProfileUseCase {
+public class DeleteJobUseCase {
 
     private final JobRepository repository;
     private final FindProfileCompanyUseCase findProfileCompanyUseCase;

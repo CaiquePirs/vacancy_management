@@ -4,7 +4,7 @@ import com.caiquepirs.vacancy_management.exceptions.UserFoundException;
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.entities.Company;
 import com.caiquepirs.vacancy_management.modules.company.repositories.CompanyRepository;
-import com.caiquepirs.vacancy_management.modules.company.utils.ValidateUpdateCompanyField;
+import com.caiquepirs.vacancy_management.modules.company.validator.ValidateUpdateCompanyField;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

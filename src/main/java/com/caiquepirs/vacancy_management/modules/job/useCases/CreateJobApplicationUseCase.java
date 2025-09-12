@@ -24,14 +24,14 @@ public class CreateJobApplicationUseCase {
     @Transactional
     public void execute(UUID candidateId, UUID jobId){
         Job job = jobRepository.findById(jobId)
-                .orElseThrow(() -> new JobNotFoundException("Job not found"));
+                .orElseThrow(() -> new JobNotFoundException("Job ID not found"));
 
         if(job.getStatus().equals(JobStatus.INACTIVE)){
             throw new JobNotFoundException("This job opening has been deactivated");
         }
 
         Candidate candidate = candidateRepository.findById(candidateId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("Candidate ID not found"));
 
         boolean alreadyApplied = job.getCandidates().stream()
                 .anyMatch(c -> c.getId().equals(candidateId));

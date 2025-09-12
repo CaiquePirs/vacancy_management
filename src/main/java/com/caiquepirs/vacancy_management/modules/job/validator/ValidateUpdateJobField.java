@@ -1,4 +1,4 @@
-package com.caiquepirs.vacancy_management.modules.job.utils;
+package com.caiquepirs.vacancy_management.modules.job.validator;
 
 import com.caiquepirs.vacancy_management.modules.job.dto.JobUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.job.entities.Job;

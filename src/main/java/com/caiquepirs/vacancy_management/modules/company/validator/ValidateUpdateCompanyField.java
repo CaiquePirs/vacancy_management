@@ -1,4 +1,4 @@
-package com.caiquepirs.vacancy_management.modules.company.utils;
+package com.caiquepirs.vacancy_management.modules.company.validator;
 
 import com.caiquepirs.vacancy_management.modules.company.dto.CompanyUpdateRequestDTO;
 import com.caiquepirs.vacancy_management.modules.company.entities.Company;
@@ -13,7 +13,6 @@ public class ValidateUpdateCompanyField {
     private final PasswordEncoder encoder;
 
     public Company validate(Company company, CompanyUpdateRequestDTO companyDTO){
-
         if (companyDTO.name() != null) company.setName(companyDTO.name());
         if(companyDTO.username() != null) company.setUsername(companyDTO.username());
         if(companyDTO.email() != null) company.setEmail(companyDTO.email());
