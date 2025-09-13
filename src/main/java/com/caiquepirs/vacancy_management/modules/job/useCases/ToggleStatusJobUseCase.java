@@ -4,7 +4,7 @@ import com.caiquepirs.vacancy_management.exceptions.JobNotFoundException;
 import com.caiquepirs.vacancy_management.modules.company.entities.Company;
 import com.caiquepirs.vacancy_management.modules.company.useCases.FindProfileCompanyUseCase;
 import com.caiquepirs.vacancy_management.modules.job.entities.Job;
-import com.caiquepirs.vacancy_management.modules.job.enuns.JobStatus;
+import com.caiquepirs.vacancy_management.modules.job.enums.JobStatus;
 import com.caiquepirs.vacancy_management.modules.job.repositories.JobRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

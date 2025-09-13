@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/candidate")
+@RequestMapping("/candidates")
 @AllArgsConstructor
 public class CandidateController implements CandidateApi {
 

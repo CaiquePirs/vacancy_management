@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.naming.AuthenticationException;
 
 @RestController
-@RequestMapping("/company/auth")
+@RequestMapping("/companies/auth")
 @AllArgsConstructor
 public class AuthCompanyController implements CompanyAuthApi {
 

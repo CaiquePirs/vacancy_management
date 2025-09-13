@@ -1,6 +1,6 @@
 package com.caiquepirs.vacancy_management.modules.job.dto;
 
-import com.caiquepirs.vacancy_management.modules.job.enuns.JobStatus;
+import com.caiquepirs.vacancy_management.modules.job.enums.JobStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;

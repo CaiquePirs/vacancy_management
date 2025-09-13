@@ -2,7 +2,7 @@ package com.caiquepirs.vacancy_management.modules.job.entities;
 
 import com.caiquepirs.vacancy_management.modules.candidate.entities.Candidate;
 import com.caiquepirs.vacancy_management.modules.company.entities.Company;
-import com.caiquepirs.vacancy_management.modules.job.enuns.JobStatus;
+import com.caiquepirs.vacancy_management.modules.job.enums.JobStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,7 +47,7 @@ public class Job {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @ManyToMany(mappedBy = "jobApplications")
+    @ManyToMany(mappedBy = "job_applications")
     private List<Candidate> candidates;
 
     @CreationTimestamp

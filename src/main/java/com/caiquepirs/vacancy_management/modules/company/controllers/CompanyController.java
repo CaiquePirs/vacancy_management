@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/companies")
 @AllArgsConstructor
 public class CompanyController implements CompanyApi {
 

@@ -2,7 +2,7 @@ package com.caiquepirs.vacancy_management.modules.job.specifications;
 
 import com.caiquepirs.vacancy_management.modules.job.dto.JobFilterDTO;
 import com.caiquepirs.vacancy_management.modules.job.entities.Job;
-import com.caiquepirs.vacancy_management.modules.job.enuns.JobStatus;
+import com.caiquepirs.vacancy_management.modules.job.enums.JobStatus;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
